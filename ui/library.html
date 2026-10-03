@@ -1,0 +1,81 @@
+<template rust:component="QueryLibrary">
+  <div class="query-library" class:compact="{{ state.terminal.narrow_library.get() }}"
+       on:resize="state.terminal.size_library(&event)">
+    <div class="library-heading">
+      <h2 class="library-title">Query library</h2>
+      <button id="close-library" on:click="state.terminal.close_library()">Back  Esc</button>
+    </div>
+    <div class="library-tabs" class:compact-tabs="{{ state.terminal.narrow_library.get() }}">
+      <button id="history-tab"
+              class:chosen="{{ state.terminal.browser.with(|browser|
+                browser.collection == Collection::History) }}"
+              on:click="state.terminal.collection(Collection::History)">History</button>
+      <button id="starred-tab"
+              class:chosen="{{ state.terminal.browser.with(|browser|
+                browser.collection == Collection::Starred) }}"
+              on:click="state.terminal.collection(Collection::Starred)">★ Starred</button>
+      <p class="muted">Saved on this device</p>
+    </div>
+    <input id="library-search" autofocus type="text" bind="state.terminal.search"
+           class:placeholder="{{ state.terminal.search.with(String::is_empty) }}"
+           on:focus="state.terminal.remember_focus(&event)"
+           on:input="state.terminal.search_library()"
+           on:keydown="state.terminal.library_navigation(&event)"
+           placeholder="Search SQL or connection…">
+    <div class="library-panes" class:stacked="{{ state.terminal.narrow_library.get() }}">
+      <section class="library-list-panel"
+               class:stacked-list="{{ state.terminal.narrow_library.get() }}">
+        <p class="pane-heading">QUERIES · newest first</p>
+        <div id="library-list" on:resize="state.terminal.size_library_list(&event)"
+             class:hidden="{{ state.terminal.browser.with(|browser| browser.total == 0) }}"
+             on:keydown="state.terminal.library_navigation(&event)"
+             on:scroll="state.terminal.library_navigation(&event)">
+          <ForEach items="{{ state.terminal.browser.with(|browser| browser.entries.clone()) }}"
+                   key="{{ |entry| entry.id }}">
+            <button class="library-entry" on:focus="state.terminal.remember_focus(&event)"
+                    on:resize="state.terminal.size_library_entry(&event)"
+                    class:chosen="{{ state.terminal.library_selection().is_some_and(|selected|
+                      selected.id == item.get().id) }}"
+                    on:click="state.terminal.select_entry(&item.get())">
+              <p class="entry-sql">{{ state.terminal.entry_summary(&item.get()) }}</p>
+              <p class="entry-context">{{ item.get().context() }}</p>
+            </button>
+          </ForEach>
+        </div>
+        <If condition="{{ state.terminal.browser.with(|browser| browser.total == 0) }}">
+          <p class="library-empty">{{ state.terminal.library_empty() }}</p>
+        </If>
+        <p class="library-position">{{ state.terminal.library_position() }}</p>
+      </section>
+      <section class="library-detail"
+               class:stacked-detail="{{ state.terminal.narrow_library.get() }}">
+        <p class="pane-heading">SQL PREVIEW</p>
+        <If condition="{{ state.terminal.library_selection().is_some() }}">
+          <p id="library-context" class="preview-context">{{
+            state.terminal.library_selection().map_or_else(String::new, |entry| entry.context())
+          }}</p>
+          <pre id="library-preview" tabindex="0"
+               on:focus="state.terminal.remember_focus(&event)">{{
+            state.terminal.library_selection().map_or_else(String::new, |entry| entry.sql.clone())
+          }}</pre>
+          <p class="preview-hint">Loads into your current connection.</p>
+          <div class="library-actions">
+            <button id="load-query" class="primary"
+                    on:click="state.terminal.load_query()">Use query  ↵</button>
+            <button id="star-entry" on:click="state.terminal.toggle_star()">{{
+              if state.terminal.library_selection().is_some_and(|entry| entry.starred) {
+                "★ Unstar  ^S"
+              } else {
+                "☆ Star  ^S"
+              }
+            }}</button>
+          </div>
+        </If>
+        <If condition="{{ state.terminal.library_selection().is_none() }}">
+          <p class="library-empty">Select a query to preview its SQL here.</p>
+        </If>
+      </section>
+    </div>
+    <p class="help">↑↓ choose · Enter load · Esc back · Menu for more actions</p>
+  </div>
+</template>

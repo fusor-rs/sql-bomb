@@ -1,0 +1,22 @@
+<template rust:component="ClientChooser">
+  <section class="connection-screen">
+    <div class="client-picker">
+      <h2 class="connection-title">Choose your client</h2>
+      <p class="connection-hint">One workspace for your SQL.</p>
+      <div id="client-cards" class="client-cards">
+        <ForEach items="{{ CLIENTS.to_vec() }}" key="{{ |client| *client }}">
+          <button class="client-card" autofocus
+                  on:focus="state.terminal.remember_focus(&event)"
+                  on:click="state.terminal.select_client(item.get())">
+            <p class="client-name">{{ item.get().profile().name }}  →</p>
+            <p class="connection-hint">{{ item.get().profile().description }}</p>
+          </button>
+        </ForEach>
+      </div>
+      <button class:hidden="{{ state.terminal.connection.with(Option::is_none)
+                && state.terminal.catalog.entries.with(Vec::is_empty) }}"
+              on:click="state.terminal.leave_connection()">Back  Esc</button>
+      <p class="connection-hint">Click or Enter to choose · Tab to move · Ctrl+C to quit</p>
+    </div>
+  </section>
+</template>

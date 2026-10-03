@@ -1,0 +1,46 @@
+<template rust:component="Terminal">
+  <main on:keydown="state.shortcut(&event)"
+        on:resize="state.root.replace(Some(event.target.clone()));">
+    <div class="topbar">
+      <h1><span class="brand-mark">›_</span> sql-bomb</h1>
+      <p id="connection-label" class="endpoint">{{ state.connection_label() }}</p>
+      <button id="open-menu" class="menu-button"
+              on:click="state.toggle_menu(&event)">Menu  ^K</button>
+      <button id="open-library" disabled="{{ state.connection.with(Option::is_none) }}"
+              on:click="state.open_library()">Library  ^P</button>
+      <button id="change-connection" disabled="{{ state.running() }}"
+              on:click="state.change_connection()">Connection</button>
+    </div>
+    <div class="screen" class:hidden="{{ state.menu.with(Option::is_some) }}">
+      <If condition="{{ state.screen.get() == Screen::Clients }}">
+        <ClientChooser terminal="{{ state.clone() }}"></ClientChooser>
+      </If>
+      <Match value="{{ state.screen.get() }}">
+        <Case pattern="Screen::Connections">
+          <SavedConnections terminal="{{ state.clone() }}"></SavedConnections>
+        </Case>
+        <Case pattern="Screen::Credentials(_)">
+          <ConnectionCredentials terminal="{{ state.clone() }}"></ConnectionCredentials>
+        </Case>
+        <Case pattern="Screen::RemoveConnection(_)">
+          <RemoveConnection terminal="{{ state.clone() }}"></RemoveConnection>
+        </Case>
+        <Case pattern="Screen::Connection(client)">
+          <ConnectionForm terminal="{{ state.clone() }}"
+                          client="{{ client.get() }}"></ConnectionForm>
+        </Case>
+        <Case pattern="_"></Case>
+      </Match>
+      <QueryWorkspace terminal="{{ state.clone() }}"></QueryWorkspace>
+      <If condition="{{ state.screen.get() == Screen::Library }}">
+        <QueryLibrary terminal="{{ state.clone() }}"></QueryLibrary>
+      </If>
+      <If condition="{{ matches!(state.screen.get(), Screen::Inspector(_)) }}">
+        <ValueInspector terminal="{{ state.clone() }}"></ValueInspector>
+      </If>
+    </div>
+    <If condition="{{ state.menu.with(Option::is_some) }}">
+      <CommandMenu terminal="{{ state.clone() }}"></CommandMenu>
+    </If>
+  </main>
+</template>

@@ -1,0 +1,41 @@
+<template rust:component="ConnectionForm">
+  <section class="connection-screen">
+    <div class="connection-form">
+      <div class="connection-heading">
+        <h2 class="connection-title connection-heading-title">{{ state.client.profile().name }}</h2>
+        <button id="choose-client" on:click="state.terminal.leave_connection()">Back  Esc</button>
+      </div>
+      <div class="connection-fields">
+        <If condition="{{ state.terminal.saving_connection() }}">
+          <label for="connection-name">Name</label>
+          <input id="connection-name" autofocus bind="state.terminal.draft.name"
+                 class:placeholder="{{ state.terminal.draft.name.with(String::is_empty) }}"
+                 placeholder="Name this connection…">
+        </If>
+        <label for="address">Connection address</label>
+        <input id="address" autofocus type="text" bind="state.terminal.address"
+               readonly="{{ matches!(state.terminal.draft.purpose.get(), ConnectionPurpose::Current) }}"
+               on:focus="state.terminal.remember_focus(&event)">
+        <p class="connection-hint">{{ state.client.profile().address_hint }}</p>
+        <If condition="{{ state.client.profile().supports_headers }}">
+          <ConnectionHeaders terminal="{{ state.terminal.clone() }}"></ConnectionHeaders>
+        </If>
+        <If condition="{{ matches!(state.terminal.draft.purpose.get(), ConnectionPurpose::New) }}">
+          <label class="connection-option">
+            <input id="save-connection" class="connection-checkbox" type="checkbox"
+                   bind="state.terminal.draft.save"
+                   on:change="state.terminal.suggest_connection_name()">
+            <p class="connection-option-label">Save on this device</p>
+          </label>
+        </If>
+      </div>
+      <p id="connection-error" class="error">{{ state.terminal.connection_error.get() }}</p>
+      <div class="connection-actions">
+        <button id="connect" class="primary"
+                on:click="state.terminal.connect()">{{ state.terminal.connection_action() }}</button>
+        <button on:click="state.terminal.leave_connection()">Cancel  Esc</button>
+      </div>
+      <p class="connection-hint">The connection opens when you run a query.</p>
+    </div>
+  </section>
+</template>

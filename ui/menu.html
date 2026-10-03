@@ -1,0 +1,33 @@
+<template rust:component="CommandMenu">
+  <div class="menu-surface">
+    <section class="command-menu">
+      <div class="menu-heading">
+        <h2 class="menu-title">Menu</h2>
+        <button id="close-menu" on:click="state.terminal.close_menu()">Close  Esc</button>
+      </div>
+      <input id="menu-search" autofocus bind="state.terminal.menu_search"
+             class:placeholder="{{ state.terminal.menu_search.with(String::is_empty) }}"
+             on:input="state.terminal.filter_menu()" placeholder="Find an action…">
+      <div id="menu-commands">
+        <ForEach items="{{ state.terminal.menu.with(|menu| menu.as_ref()
+                   .map_or_else(Vec::new, |menu| menu.commands.clone())) }}"
+                 key="{{ |command| command.action }}">
+          <button class="command"
+                  class:unavailable="{{ state.terminal.unavailable(item.get().action).is_some() }}"
+                  class:command-selected="{{ state.terminal.selected_command()
+                    .is_some_and(|command| command.action == item.get().action) }}"
+                  on:focus="state.terminal.select_command(item.get().action)"
+                  on:click="state.terminal.choose_command(item.get().action)">
+            <p class="command-marker">{{ if state.terminal.selected_command()
+              .is_some_and(|command| command.action == item.get().action) { "›" } else { " " }
+            }}</p>
+            <p class="command-label">{{ item.get().label }}</p>
+            <p class="command-key">{{ item.get().shortcut }}</p>
+          </button>
+        </ForEach>
+      </div>
+      <p id="menu-description">{{ state.terminal.menu_description() }}</p>
+      <p class="menu-help">↑↓ choose · Enter open · Esc close · Ctrl+C quit</p>
+    </section>
+  </div>
+</template>

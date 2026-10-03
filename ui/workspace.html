@@ -1,0 +1,62 @@
+<template rust:component="QueryWorkspace">
+  <div class="workspace" class:hidden="{{ state.terminal.screen.get() != Screen::Workspace }}">
+    <textarea id="query" autofocus bind="state.terminal.sql"
+              class:placeholder="{{ state.terminal.sql.with(String::is_empty) }}"
+              on:input="state.terminal.refresh_star()"
+              on:focus="state.terminal.remember_focus(&event)"
+              placeholder="SELECT * FROM your_table LIMIT 100;"></textarea>
+    <div class="toolbar">
+      <button class="primary"
+              disabled="{{ !state.terminal.can_run() }}"
+              on:click="state.terminal.run()">Run  ⌘↵ / ^R</button>
+      <button disabled="{{ !state.terminal.running() }}"
+              on:click="state.terminal.cancel()">Cancel  Esc</button>
+      <button id="star-query" class:primary="{{ state.terminal.starred.get() }}"
+              disabled="{{ state.terminal.sql.with(|sql| sql.trim().is_empty()) }}"
+              on:click="state.terminal.toggle_star()">{{
+        if state.terminal.starred.get() { "★ Starred  ^S" } else { "☆ Star  ^S" }
+      }}</button>
+      <If condition="{{ state.terminal.failed() }}">
+        <button on:click="state.terminal.inspect_error()">Error details</button>
+      </If>
+    </div>
+    <p class="status" class:error="{{ state.terminal.failed() }}">{{ state.terminal.status() }}</p>
+    <section id="results" tabindex="0" on:resize="state.terminal.resize(&event)"
+             on:focus="state.terminal.remember_focus(&event)"
+             on:keydown="state.terminal.navigate(&event)"
+             on:scroll="state.terminal.navigate(&event)">
+      <If condition="{{ state.terminal.idle() &&
+                        state.terminal.screen.get() == Screen::Workspace }}">
+        <Welcome></Welcome>
+      </If>
+      <table class:hidden="{{ state.terminal.idle() }}">
+        <thead>
+          <tr>
+            <ForEach items="{{ state.terminal.headers() }}" key="{{ |cell| cell.column }}">
+              <th class:active="{{ item.get().selected }}">{{ item.get().preview.text }}</th>
+            </ForEach>
+          </tr>
+        </thead>
+        <tbody>
+          <ForEach items="{{ state.terminal.rows() }}" key="{{ |row| row.number }}">
+            <tr class:selected="{{ item.get().selected }}">
+              <ForEach items="{{ item.get().cells }}" key="{{ |cell| cell.column }}">
+                <td class:active="{{ item.get().selected }}"><a
+                  href="{{ item.get().preview.href }}">{{ item.get().preview.text }}</a></td>
+              </ForEach>
+            </tr>
+          </ForEach>
+        </tbody>
+      </table>
+      <If condition="{{ state.terminal.results.with(|results| results.received == 0) }}">
+        <p class="empty" class:hidden="{{ state.terminal.idle() }}">{{
+          state.terminal.empty_message()
+        }}</p>
+      </If>
+    </section>
+    <p class="position">{{ state.terminal.position() }}</p>
+    <p class="help">
+      Arrows select · Enter inspect · / menu · Ctrl+C quit
+    </p>
+  </div>
+</template>

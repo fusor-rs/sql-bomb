@@ -1,0 +1,19 @@
+<template rust:component="ValueInspector">
+  <div class="workspace">
+    <h2 class="inspector-title">{{ state.terminal.inspector_title() }}</h2>
+    <pre id="inspector" autofocus tabindex="0"
+         on:focus="state.terminal.remember_focus(&event)">{{
+      state.terminal.inspector_value()
+    }}</pre>
+    <If condition="{{ state.terminal.multipart() }}">
+      <div class="toolbar">
+        <p>{{ state.terminal.inspector_parts() }}</p>
+        <button on:click="state.terminal.turn_part(-1)">← Previous part</button>
+        <button on:click="state.terminal.turn_part(1)">Next part →</button>
+      </div>
+    </If>
+    <p class="help">
+      Scroll to read · Esc back · / menu · Ctrl+C quit
+    </p>
+  </div>
+</template>

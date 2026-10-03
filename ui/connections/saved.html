@@ -1,0 +1,47 @@
+<template rust:component="SavedConnections">
+  <section class="connection-screen">
+    <div class="connection-library" on:keydown="state.terminal.connections_navigation(&event)">
+      <div class="connection-heading">
+        <h2 class="connection-title connection-heading-title">Connections</h2>
+        <button id="new-connection"
+                on:click="state.terminal.new_connection()">+ New connection</button>
+      </div>
+      <input id="connection-search" autofocus bind="state.terminal.catalog.search"
+             class:placeholder="{{ state.terminal.catalog.search.with(String::is_empty) }}"
+             on:focus="state.terminal.remember_focus(&event)"
+             on:input="state.terminal.search_connections()" placeholder="Search connections…">
+      <p class="connection-hint">Recently opened first</p>
+      <div id="saved-connections">
+        <ForEach items="{{ state.terminal.catalog.entries.get() }}"
+                 key="{{ |profile| profile.id.clone() }}">
+          <button class="saved-connection"
+                  class:chosen="{{ state.terminal.selected_connection()
+                    .is_some_and(|selected| selected.id == item.get().id) }}"
+                  on:focus="state.terminal.select_connection(&item.get())"
+                  on:click="state.terminal.open_saved_connection(item.get())">
+            <p class="connection-name">{{ item.get().name.clone() }}</p>
+            <p class="connection-hint entry-context">{{ format!("{} · {}",
+              item.get().kind.profile().name, item.get().address) }}</p>
+          </button>
+        </ForEach>
+      </div>
+      <If condition="{{ state.terminal.catalog.entries.with(Vec::is_empty) }}">
+        <p class="empty">No matching connections. Clear the search or create one.</p>
+      </If>
+      <p id="saved-connection-error" class="error">{{ state.terminal.connection_error.get() }}</p>
+      <div class="connection-actions">
+        <button id="open-connection" class="primary"
+                disabled="{{ state.terminal.selected_connection().is_none() }}"
+                on:click="state.terminal.open_selected_connection()">Open  Enter</button>
+        <button id="edit-connection" disabled="{{ state.terminal.selected_connection().is_none() }}"
+                on:click="state.terminal.edit_connection()">Edit</button>
+        <button id="remove-connection"
+                disabled="{{ state.terminal.selected_connection().is_none() }}"
+                on:click="state.terminal.confirm_remove_connection()">Remove</button>
+        <button class:hidden="{{ state.terminal.connection.with(Option::is_none) }}"
+                on:click="state.terminal.leave_connection()">Back  Esc</button>
+      </div>
+      <p class="connection-hint">↑↓ choose · Click or Enter to open · Tab to actions</p>
+    </div>
+  </section>
+</template>

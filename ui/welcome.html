@@ -1,0 +1,18 @@
+<template rust:component="Welcome">
+  <div id="welcome" class="welcome">
+    <div class="welcome-art">
+      <pre class="welcome-upper" class:lit="{{ state.phase.get() >= Phase::Fuse }}">{{
+        LOGO_UPPER.trim_end_matches('\n')
+      }}</pre>
+      <pre class="welcome-lower" class:lit="{{ state.phase.get() >= Phase::Database }}">{{
+        LOGO_LOWER.trim_end_matches('\n')
+      }}</pre>
+    </div>
+    <div class="welcome-copy">
+      <h2 id="welcome-title" class="welcome-title"
+          class:lit="{{ state.phase.get() >= Phase::Title }}">sql-bomb</h2>
+      <p class="welcome-tagline">Query SQL.
+Watch the rows arrive.</p>
+    </div>
+  </div>
+</template>

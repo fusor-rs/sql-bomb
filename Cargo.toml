@@ -1,0 +1,80 @@
+[workspace]
+members = ["."]
+resolver = "3"
+
+[workspace.dependencies]
+tokio = { version = "=1.48.0", features = ["rt-multi-thread", "time"] }
+
+[package]
+name = "sql-bomb"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "A terminal workspace for SQL queries and streaming results"
+
+[package.metadata.hypercmd]
+entry = "ui/app.html"
+templates = ["ui"]
+styles = ["ui/terminal.css"]
+
+[dependencies]
+arrow-array = "=58.3.0"
+arrow-cast = "=58.3.0"
+arrow-flight = { version = "=58.3.0", features = ["flight-sql"] }
+arrow-schema = "=58.3.0"
+async-stream = "=0.3.6"
+fusor-components = { version = "=0.1.4", default-features = false }
+futures-util = "=0.3.34"
+keyring = { version = "=3.6.3", features = [
+    "apple-native", "sync-secret-service", "crypto-rust", "vendored",
+] }
+rusqlite = { version = "=0.33.0", features = ["bundled"] }
+thiserror = "=2.0.21"
+tokio.workspace = true
+tonic = { version = "=0.14.6", features = ["tls-ring", "tls-native-roots"] }
+
+[dependencies.fusor]
+package = "fusor-core"
+version = "=0.1.4"
+default-features = false
+features = ["derive"]
+
+[dependencies.hypercmd]
+git = "https://github.com/fusor-rs/hypercmd"
+rev = "5e4cb1781b3e4aeeeabe8e14f8c600f744da1597"
+
+[build-dependencies.hypercmd-build]
+git = "https://github.com/fusor-rs/hypercmd"
+rev = "5e4cb1781b3e4aeeeabe8e14f8c600f744da1597"
+
+[dev-dependencies]
+prost = "=0.14.3"
+tokio = { workspace = true, features = ["macros"] }
+tokio-stream = { version = "=0.1.19", features = ["net"] }
+
+[lints]
+workspace = true
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+unused = { level = "deny", priority = -1 }
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -1 }
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
+unwrap_used = "deny"
+redundant_clone = "deny"
+needless_pass_by_value = "deny"
+too_many_lines = "deny"
+cognitive_complexity = "deny"
+wildcard_imports = "deny"
+min_ident_chars = "deny"
+match_same_arms = "deny"
+branches_sharing_code = "deny"
+fn_params_excessive_bools = "deny"
+struct_excessive_bools = "deny"
+excessive_nesting = "deny"

@@ -1,0 +1,112 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+
+  binaries:
+    needs: check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04, target: x86_64-unknown-linux-musl }
+          - { os: ubuntu-24.04-arm, target: aarch64-unknown-linux-musl }
+          - { os: macos-15, target: aarch64-apple-darwin }
+          - { os: macos-15-intel, target: x86_64-apple-darwin }
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Read and validate the version
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version=$(cargo metadata --locked --no-deps --format-version 1 |
+            jq -er '.packages[] | select(.name == "sql-bomb") | .version')
+          if [ "$EVENT_NAME" = release ] && [ "$RELEASE_TAG" != "v$version" ]; then
+            echo "::error::Release tag $RELEASE_TAG must match Cargo.toml version v$version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Install the Linux C toolchain
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes musl-tools
+          echo "CC=musl-gcc" >> "$GITHUB_ENV"
+      - run: cargo build --locked --release --target "$TARGET" --bin sql-bomb
+      - name: Package and verify the executable
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          name="sql-bomb-$VERSION-$TARGET"
+          staging="$RUNNER_TEMP/$name"
+          artifacts="$RUNNER_TEMP/artifacts/v$VERSION"
+          mkdir -p "$staging" "$artifacts"
+          cp "target/$TARGET/release/sql-bomb" LICENSE README.md "$staging/"
+          COPYFILE_DISABLE=1 tar -czf "$artifacts/$name.tar.gz" -C "$RUNNER_TEMP" "$name"
+          cd "$artifacts"
+          shasum -a 256 "$name.tar.gz" > "$name.tar.gz.sha256"
+          export SQL_BOMB_DOWNLOAD_BASE="file://$RUNNER_TEMP/artifacts"
+          export SQL_BOMB_INSTALL="$RUNNER_TEMP/installed sql-bomb"
+          sh "$GITHUB_WORKSPACE/install.sh" "v$VERSION"
+          "$SQL_BOMB_INSTALL/bin/sql-bomb" --help
+          cp "$name.tar.gz" "$RUNNER_TEMP/intact.tar.gz"
+          printf 'corrupt download' >> "$name.tar.gz"
+          if sh "$GITHUB_WORKSPACE/install.sh" "$VERSION" > "$RUNNER_TEMP/rejected.log" 2>&1; then
+            echo "::error::Installer accepted a corrupt archive"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/rejected.log"
+          grep -Fx 'error: checksum mismatch; download the release again' \
+            "$RUNNER_TEMP/rejected.log"
+          cmp "$staging/sql-bomb" "$SQL_BOMB_INSTALL/bin/sql-bomb"
+          mv "$RUNNER_TEMP/intact.tar.gz" "$name.tar.gz"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sql-bomb-${{ matrix.target }}
+          path: ${{ runner.temp }}/artifacts/v${{ steps.version.outputs.version }}/*
+          if-no-files-found: error
+          compression-level: 0
+
+  attach:
+    if: github.event_name == 'release'
+    needs: binaries
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Attach release archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$RELEASE_TAG" artifacts/* --clobber --repo "$GITHUB_REPOSITORY"

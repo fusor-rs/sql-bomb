@@ -1,0 +1,24 @@
+<template rust:component="ConnectionHeaders">
+  <div>
+    <label for="request-headers">Request headers</label>
+    <textarea id="request-headers" autofocus bind="state.terminal.request_headers"
+              readonly="{{ matches!(state.terminal.draft.purpose.get(), ConnectionPurpose::Current) }}"
+              class:placeholder="{{ state.terminal.request_headers.with(String::is_empty) }}"
+              on:focus="state.terminal.remember_focus(&event)"
+              placeholder="authorization: Bearer …"></textarea>
+    <p class="connection-hint">One name: value per line. Leave empty if not needed.</p>
+    <If condition="{{ matches!(state.terminal.draft.purpose.get(),
+      ConnectionPurpose::Edit(ref profile)
+      if profile.credentials == crate::library::Credentials::Session) }}">
+      <p class="connection-hint">Empty keeps prompting for headers when you open this connection.</p>
+    </If>
+    <If condition="{{ state.terminal.saving_connection() }}">
+      <label class="connection-option">
+        <input id="remember-credentials" class="connection-checkbox" type="checkbox"
+               bind="state.terminal.draft.remember">
+        <p class="connection-option-label">Remember headers securely</p>
+      </label>
+      <p class="connection-hint">Uses the OS credential store. Unchecked: enter headers again when reopening.</p>
+    </If>
+  </div>
+</template>

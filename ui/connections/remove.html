@@ -1,0 +1,17 @@
+<template rust:component="RemoveConnection">
+  <section class="connection-screen">
+    <div class="connection-form">
+      <h2 class="connection-title">Remove saved connection?</h2>
+      <p>{{ state.terminal.removing_connection_name() }}</p>
+      <p class="connection-hint">Removes this profile and its remembered credentials.</p>
+      <p class="connection-hint">Query history, stars, and the current workspace are kept.</p>
+      <p class="error">{{ state.terminal.connection_error.get() }}</p>
+      <div class="connection-actions">
+        <button id="keep-connection" autofocus
+                on:click="state.terminal.leave_connection()">Keep connection</button>
+        <button id="confirm-remove-connection" class="primary"
+                on:click="state.terminal.remove_connection()">Remove connection</button>
+      </div>
+    </div>
+  </section>
+</template>
