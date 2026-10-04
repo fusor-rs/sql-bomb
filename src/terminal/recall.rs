@@ -87,6 +87,7 @@ impl Terminal {
         if self.connection.with(Option::is_none) {
             return Ok(());
         }
+        self.completion.dismiss();
         self.refresh_library(|_| {})?;
         self.menu.replace(None);
         self.screen.set(Screen::Library);
@@ -95,6 +96,7 @@ impl Terminal {
     }
 
     pub(super) fn collection(&self, collection: Collection) -> Result<(), Error> {
+        self.completion.dismiss();
         self.refresh_library(|browser| {
             browser.collection = collection;
             browser.selected = 0;

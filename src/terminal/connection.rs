@@ -160,6 +160,7 @@ impl Terminal {
         if let Some(profile) = &connection.saved {
             self.library.opened_connection(&profile.id)?;
         }
+        self.completion.reset();
         self.connection.replace(Some(connection));
         self.connection_error.set(String::new());
         self.results.replace(Results::default());

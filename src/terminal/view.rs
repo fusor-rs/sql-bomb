@@ -25,6 +25,7 @@ terminal_views! {
     RemoveConnection => "ui/connections/remove.html",
     ClientChooser => "ui/connections/clients.html",
     QueryWorkspace => "ui/workspace.html",
+    QuerySuggestions => "ui/query/suggestions.html",
     QueryLibrary => "ui/library.html",
     ValueInspector => "ui/inspector.html",
     CommandMenu => "ui/menu.html",

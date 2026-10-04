@@ -1,5 +1,7 @@
 use crate::client::{CLIENTS, Startup};
 
+const COMMAND: &str = env!("CARGO_BIN_NAME");
+
 pub(crate) enum Command {
     Help,
     Start(Startup),
@@ -21,7 +23,9 @@ pub(crate) fn parse(
         Some(first)
     };
     if arguments.next().is_some() || address.as_ref().is_some_and(|value| value.starts_with('-')) {
-        return Err("Unknown option or extra argument; run sql-bomb --help for usage".into());
+        return Err(
+            format!("Unknown option or extra argument; run {COMMAND} --help for usage").into(),
+        );
     }
     let startup = match (client, address) {
         (Some(client), Some(address)) => Startup::Connected(
@@ -37,8 +41,8 @@ pub(crate) fn parse(
 
 pub(crate) fn help() {
     println!(
-        "Usage: sql-bomb [CLIENT [CONNECTION]]
-       sql-bomb [CONNECTION]
+        "Usage: {COMMAND} [CLIENT [CONNECTION]]
+       {COMMAND} [CONNECTION]
 
 Without arguments, open saved connections or choose a client.
 A client flag opens its connection form; adding a connection opens the workspace.

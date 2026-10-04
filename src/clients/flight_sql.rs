@@ -1,7 +1,11 @@
-use crate::{Error, Query, QueryClient};
+mod tables;
+
+use crate::{Error, Query, QueryClient, Table};
 use arrow_flight::{
-    FlightEndpoint, decode::FlightRecordBatchStream, flight_service_client::FlightServiceClient,
-    sql::client::FlightSqlServiceClient,
+    FlightEndpoint, FlightInfo,
+    decode::FlightRecordBatchStream,
+    flight_service_client::FlightServiceClient,
+    sql::{CommandGetTables, client::FlightSqlServiceClient},
 };
 use futures_util::{TryStreamExt, future::BoxFuture};
 use std::collections::BTreeMap;
@@ -44,32 +48,63 @@ impl FlightSql {
         self.headers = validated;
         Ok(())
     }
+
+    async fn connect(&self) -> Result<FlightSqlServiceClient<Channel>, Error> {
+        let mut client = FlightSqlServiceClient::new(self.endpoint.connect().await?);
+        for (name, value) in &self.headers {
+            client.set_header(name, value);
+        }
+        Ok(client)
+    }
+
+    fn read_flight(
+        &self,
+        mut client: FlightSqlServiceClient<Channel>,
+        mut flight: FlightInfo,
+    ) -> Result<Query, Error> {
+        let endpoints = std::mem::take(&mut flight.endpoint);
+        let schema = flight.try_decode_schema()?;
+        let origin = self.endpoint.clone();
+        let batches = async_stream::try_stream! {
+            for endpoint in endpoints {
+                let mut batches = fetch_endpoint(&mut client, endpoint, &origin).await?;
+                while let Some(batch) = batches.try_next().await? {
+                    yield batch;
+                }
+            }
+        };
+        Ok(Query {
+            schema,
+            batches: Box::pin(batches),
+        })
+    }
 }
 
 impl QueryClient for FlightSql {
     fn query(&self, sql: String) -> BoxFuture<'_, Result<Query, Error>> {
         Box::pin(async move {
-            let mut client = FlightSqlServiceClient::new(self.endpoint.connect().await?);
-            for (name, value) in &self.headers {
-                client.set_header(name, value);
-            }
-            let mut flight = client.execute(sql, None).await?;
-            let endpoints = std::mem::take(&mut flight.endpoint);
-            let schema = flight.try_decode_schema()?;
-            let origin = self.endpoint.clone();
-            let batches = async_stream::try_stream! {
-                for endpoint in endpoints {
-                    let mut batches = fetch_endpoint(&mut client, endpoint, &origin).await?;
-                    while let Some(batch) = batches.try_next().await? {
-                        yield batch;
-                    }
-                }
-            };
-            Ok(Query {
-                schema,
-                batches: Box::pin(batches),
-            })
+            let mut client = self.connect().await?;
+            let flight = client.execute(sql, None).await?;
+            self.read_flight(client, flight)
         })
+    }
+
+    fn tables(&self) -> Option<BoxFuture<'_, Result<Vec<Table>, Error>>> {
+        Some(Box::pin(async move {
+            let mut client = self.connect().await?;
+            let flight = client
+                .get_tables(CommandGetTables {
+                    include_schema: true,
+                    ..Default::default()
+                })
+                .await?;
+            let mut query = self.read_flight(client, flight)?;
+            let mut tables = Vec::new();
+            while let Some(batch) = query.batches.try_next().await? {
+                tables::append(&batch, &mut tables)?;
+            }
+            Ok(tables)
+        }))
     }
 }
 
