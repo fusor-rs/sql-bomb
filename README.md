@@ -8,15 +8,18 @@
 
 # Query SQL. Watch the rows arrive.
 
-Write a query, stream the results, and keep the SQL worth running again.
+sql-bomb is a database-agnostic terminal application for running SQL and streaming
+results into a table. You can inspect complete cell values, reopen saved
+connections, and return to queries from your local history or starred library.
+The installed executable is named `boom`.
 
-sql-bomb is a database-agnostic SQL terminal built in Rust, with pluggable clients
-and an interface powered by
-[hypercmd](https://github.com/fusor-rs/hypercmd) and
-[fusor](https://github.com/fusor-rs/fusor). Browse results as they arrive, inspect
-complete values, and return to queries from your local history or starred library.
+A client connects sql-bomb to a database server, and every client shares the same
+editor, results table, saved connections, and query library. The
+[client reference](#clients) lists the available clients and their settings.
 
-Install sql-bomb, then launch it with `boom`.
+The terminal interface is built with
+[Hypercmd](https://github.com/fusor-rs/hypercmd) and
+[Fusor](https://github.com/fusor-rs/fusor).
 
 **In development · v0.1** — See [available clients](#clients) and
 [status and known limitations](#status-and-known-limitations).
@@ -27,54 +30,80 @@ Install sql-bomb, then launch it with `boom`.
 
 ## Get started
 
-You need an interactive terminal on macOS or Linux and a connection supported by
-an [available client](#clients).
-The shell installer downloads the latest published release for x86-64 or ARM64,
-verifies its SHA-256 checksum, and installs it in `~/.sqlbomb/bin` without sudo
-or a Rust toolchain:
+sql-bomb runs in a terminal on macOS or Linux. To run queries, you need a running
+database server and its address; the [client reference](#clients) lists the
+connection types sql-bomb supports. sql-bomb connects to that server; it does not
+start a database for you.
+
+### Install with Cargo
+
+Cargo is Rust's package manager, included when you install Rust through
+[rustup](https://rustup.rs). After a sql-bomb release is published to crates.io,
+you can install the `boom` executable with:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/fusor-rs/sql-bomb/main/install.sh | sh
+cargo install sql-bomb --locked
+boom
+```
+
+`--locked` uses the dependency versions recorded in the release. Cargo installs
+`boom` in `~/.cargo/bin` by default; that directory needs to be in your shell's PATH.
+
+### Install a binary release
+
+The shell installer downloads the latest published GitHub release for x86-64 or
+ARM64 on Linux or macOS. It verifies the download's SHA-256 checksum and installs
+`boom` in `~/.sqlbomb/bin`, without sudo or a Rust toolchain:
+
+```sh
+curl -fsSL https://boom.fusor.build/install.sh | sh
 export PATH="$HOME/.sqlbomb/bin:$PATH"
 boom
 ```
 
-Add that PATH export to your shell profile to keep it across sessions. Run the
-installer again to upgrade. To select a release, append `-s -- v0.1.0` to `sh`.
-Set `SQL_BOMB_INSTALL` on the `sh` command to choose a different install directory;
-the executable goes in its `bin/`. The installer leaves saved connections, query
-history, and stars untouched.
+Add the `export` line to your shell profile, such as `~/.zshrc` or `~/.bashrc`, so
+new terminals can find `boom`. Run the installer again to upgrade. To select a
+release, append `-s -- v0.1.0` to `sh`. Set `SQL_BOMB_INSTALL` on the `sh` command
+to choose a different install directory; the executable goes in its `bin/`.
+Saved connections, query history, and stars are left untouched.
 
-Installation requires a published release with completed binary uploads. To build
-from this checkout instead, install Rust and Cargo, then run:
+This method requires a GitHub release with completed binary uploads.
 
-```sh
-cargo run --locked
-```
+### Connect to a server
 
-To install the executable from this checkout:
+1. Run `boom` and choose a client from the chooser.
+2. Enter your server URL, including its scheme and port, such as
+   `http://localhost:50051`. This example requires a server already running at that
+   address. Use `https://` for a server with TLS encryption.
+3. If the server requires authentication, enter its request headers, such as
+   `authorization: Bearer YOUR_TOKEN`. Otherwise, leave the headers empty.
+4. Select **Open workspace**.
 
-```sh
-cargo install --path . --locked
-boom
-```
-
-Choose a client from the centered cards with a click or Enter, fill in its
-connection details, and select **Open workspace**. The editor is ready for input.
-The logo and wordmark reveal over half a second in the empty results pane and
-remain until you run a query.
-The small logo stays visible in short or narrow terminals as the tagline wraps.
-
-Write SQL in the editor and click **Run**, or press Ctrl+R:
+Type a query in the editor and press Ctrl+R, or click **Run**:
 
 ```sql
 SELECT 1 AS value;
 ```
 
-**Connection** opens your saved connections, or the client chooser if you have
-none. Opening the workspace loads available table metadata in the background;
-running a query opens its query connection. For direct launches, see
-the [client-specific flags and connection settings](#clients).
+Rows appear below the editor as the server sends them. Press Ctrl+C to quit.
+
+Once you save a connection, `boom` opens your saved connections instead. See
+[Using sql-bomb](#using-sql-bomb) for saving connections and browsing results, or the
+[client reference](#clients) for supported URLs, authentication, and
+command-line shortcuts that skip the chooser and form.
+
+### Build from source
+
+With Rust and Cargo installed, clone the repository and install from the checkout:
+
+```sh
+git clone https://github.com/fusor-rs/sql-bomb
+cd sql-bomb
+cargo install --path . --locked
+boom
+```
+
+For development, `cargo run --locked` builds and launches the app from the checkout.
 
 ## Using sql-bomb
 
@@ -211,8 +240,7 @@ Clients provide connection settings and query execution. The editor, result
 browser, saved connections, and query library share the same workspace regardless
 of the selected client.
 
-Flight SQL is currently the only implemented client. PostgreSQL and MySQL clients
-are not implemented.
+Available clients are listed below.
 
 ### Flight SQL
 
@@ -324,7 +352,7 @@ tests check that profiles exclude secrets and failed saves preserve credentials.
 The [Check workflow](.github/workflows/check.yml) runs these checks on Linux and
 macOS for pushes and pull requests, then installs and launches the executable.
 
-### Release binaries
+### Releases
 
 Publish a GitHub release with a tag matching the package version in `Cargo.toml`,
 such as `v0.1.0`. The [Release workflow](.github/workflows/release.yml) runs Check,
@@ -337,12 +365,30 @@ release. It also checks that a corrupt download leaves the installed executable
 unchanged. `SQL_BOMB_DOWNLOAD_BASE` points the installer at these local archives
 during CI.
 
+The same release publishes `sql-bomb-completion` and `sql-bomb` to crates.io after
+all binary builds pass. Configure a GitHub environment named `crates-io` with a
+`CARGO_REGISTRY_TOKEN` secret authorized to publish both crates. The workflow
+verifies the packaged workspace before uploading and skips versions already
+published when a release is rerun.
+
+Crates.io publication requires a Hypercmd release containing the selection events
+and `Node::replace_range` API used here. Published Hypercmd 0.1.0 lacks those APIs;
+update both Hypercmd dependency versions and their Git revision to a compatible
+release before publishing sql-bomb. The package verification step rejects the
+current registry dependencies.
+
 Running Release manually produces workflow artifacts without publishing them.
-It does not publish to crates.io. Windows binaries and a PowerShell installer
-require Windows support in Hypercmd's native runtime and the query library's
+Windows binaries and a PowerShell installer require Windows support in Hypercmd's
+native runtime and the query library's
 filesystem handling.
 
 Logo assets and palette guidance are in [the brand guide](assets/brand/BRANDING.md).
+
+### Website
+
+The landing page and documentation are Fusor apps in a separate `apps/` workspace,
+following Hypercmd's site setup. See [website development and Vercel deployment](apps/README.md)
+for local previews, browser checks, and the manual **Deploy site** workflow.
 
 ## License
 

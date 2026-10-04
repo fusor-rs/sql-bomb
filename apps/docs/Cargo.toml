@@ -1,0 +1,29 @@
+[package]
+name = "sql-bomb-docs"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+docs-base.workspace = true
+fusor.workspace = true
+fusor-components.workspace = true
+fusor-router = { version = "=0.1.4", features = ["browser"] }
+wasm-bindgen.workspace = true
+
+[build-dependencies]
+docs-base-build.workspace = true
+fusor-build.workspace = true
+
+[package.metadata.fusor]
+entry = "web/index.html"
+assets = "public"
+base-path = "/docs/"
+history-fallback = ["/"]
+
+[lints]
+workspace = true

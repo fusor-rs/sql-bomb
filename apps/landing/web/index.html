@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faf9f6" />
+    <meta name="description"
+      content="A database-agnostic SQL terminal powered by Hypercmd and Fusor." />
+    <meta property="og:title" content="sql-bomb — Ultrafast SQL Client in your Terminal" />
+    <meta property="og:description"
+      content="Write SQL, explore streaming results, and keep the queries worth running again." />
+    <meta property="og:type" content="website" />
+    <title>sql-bomb — Ultrafast SQL Client in your Terminal</title>
+    <link rel="icon" href="/brand/sql-bomb.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/landing.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <App state="{{ App::new()? }}">
+      <div class="page">
+        <header class="site-header">
+          <a class="brand" href="/" aria-label="sql-bomb home">
+            <img src="/brand/sql-bomb-horizontal.svg" alt="sql-bomb" width="172" height="44" />
+          </a>
+          <a class="family" href="https://fusor.build/">Part of the fusor family ↗</a>
+        </header>
+        <main id="main">
+          <section class="hero" aria-labelledby="headline">
+            <p class="eyebrow">
+              <span aria-hidden="true">&gt;_</span> Less waiting. More querying.
+            </p>
+            <h1 id="headline">Ultrafast SQL Client<br />in your <span>Terminal</span></h1>
+            <p class="description">
+              sql-bomb is a fast, database-agnostic SQL workspace for querying databases
+              and streaming results in a beautiful terminal interface, powered by
+              <a href="https://github.com/fusor-rs/hypercmd">Hypercmd</a>
+              and <a href="https://fusor.build/">Fusor</a>.
+            </p>
+            <div class="hero-links">
+              <a class="primary-link" href="#install">
+                Get sql-bomb <span aria-hidden="true">↓</span>
+              </a>
+              <a href="/docs/">Read the docs <span aria-hidden="true">↗</span></a>
+            </div>
+          </section>
+          <section class="example" aria-label="Native terminal walkthrough"
+                   on:mouseenter="state.hovering.set(true)"
+                   on:mouseleave="state.hovering.set(false)">
+            <div class="example-heading">
+              <p><span class="live-dot" aria-hidden="true"></span>
+                The real terminal. Take a look around.</p>
+              <span>Explore the app ↓</span>
+            </div>
+            <div class="studio">
+              <div class="pane-heading">
+                <div class="window-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+                <span>~ / sql-bomb</span><span class="pane-label">boom</span>
+              </div>
+              <div class="terminal-body" tabindex="0" aria-label="Native terminal capture">
+                <img class="terminal-capture" src="{{ state.scene.get().image }}"
+                     alt="{{ state.scene.get().description }}" width="880" height="476" />
+              </div>
+              <div class="pane-footer">
+                <span>Hypercmd + Fusor</span>
+              </div>
+            </div>
+            <div class="walkthrough" role="group" aria-label="Explore sql-bomb">
+              <ForEach items="{{ SCENES.iter().collect::<Vec<_>>() }}" key="{{ |scene| scene.name }}">
+                <button aria-pressed="{{ state.scene.get() == item.get() }}"
+                        on:click="state.scene.set(item.get())">{{ item.get().name }}</button>
+              </ForEach>
+            </div>
+            <p class="walkthrough-description" aria-live="polite">
+              {{ state.scene.get().description }}
+            </p>
+            <p class="example-caption">
+              A recorded walkthrough of sql-bomb, running against a local server with sample data.
+              Hover to pause, or choose a view above to explore.
+            </p>
+          </section>
+          <section class="features" aria-label="Inside sql-bomb">
+            <div>
+              <span class="feature-number">01 / QUERY</span>
+              <h2>Stay in your flow.</h2>
+              <p>Multiline SQL, table and column suggestions, and a searchable action menu.</p>
+            </div>
+            <div>
+              <span class="feature-number">02 / EXPLORE</span>
+              <h2>Follow the rows.</h2>
+              <p>Browse results as they arrive.
+                Open a cell to see the complete value and its type.</p>
+            </div>
+            <div>
+              <span class="feature-number">03 / KEEP</span>
+              <h2>Good SQL deserves an encore.</h2>
+              <p>Return to local history, star a useful query, and reopen saved connections.</p>
+            </div>
+          </section>
+          <section id="install" class="installation" aria-labelledby="install-title">
+            <h2 id="install-title">Your next query starts with <code>boom</code>.</h2>
+            <div class="install-box">
+              <div class="install-methods" role="group" aria-label="Installation method">
+                <ForEach items="{{ INSTALL_METHODS.iter().collect::<Vec<_>>() }}"
+                         key="{{ |method| method.name }}">
+                  <button aria-controls="install-command"
+                          aria-pressed="{{ state.install_method.get() == item.get() }}"
+                          on:click="state.select_install(item.get())">{{ item.get().name }}</button>
+                </ForEach>
+              </div>
+              <div id="install-command" class="install-command">
+                <span class="shell-prompt" aria-hidden="true">$</span>
+                <code>{{ state.install_method.get().command }}</code>
+                <button class="copy-button" class:copied="state.copy_label.get() == COPY_SUCCESS"
+                        on:click="state.copy_install()" aria-label="{{ state.copy_label.get() }}">
+                  <img src="/copy.svg" width="17" height="17" alt="" />
+                  <span aria-live="polite">{{ state.copy_label.get() }}</span>
+                </button>
+              </div>
+            </div>
+            <p class="install-note">
+              macOS &amp; Linux · x86-64 &amp; ARM64 · v0.1, in development
+            </p>
+            <div class="quick-start">
+              <p>After installation, open your SQL workspace:</p>
+              <pre><code>boom</code></pre>
+              <a href="/docs/get-started">Installation &amp; first connection ↗</a>
+              <p class="install-note">Install commands require a published release.
+                <a href="/docs/get-started#build-from-source">Build from source</a>
+                to run this checkout.</p>
+            </div>
+          </section>
+        </main>
+        <footer>
+          <nav aria-label="Quick links">
+            <a href="/docs/">Documentation ↗</a>
+            <a href="https://github.com/fusor-rs/sql-bomb">GitHub ↗</a>
+            <a href="https://x.com/fusor_rs">X <span class="handle">@fusor_rs</span> ↗</a>
+          </nav>
+          <p>Query SQL. Watch the rows arrive.</p>
+        </footer>
+      </div>
+    </App>
+    <noscript>This site needs JavaScript and WebAssembly.
+      <a href="https://github.com/fusor-rs/sql-bomb#readme">Read the documentation on GitHub.</a>
+    </noscript>
+  </body>
+</html>
