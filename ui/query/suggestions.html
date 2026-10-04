@@ -1,0 +1,18 @@
+<template rust:component="QuerySuggestions">
+  <section class="suggestions-panel"
+           class:hidden="{{ state.terminal.completion.suggestions.with(Vec::is_empty) }}">
+      <p class="suggestions-help">Type to narrow · ↑↓ choose · Tab / click insert · Esc close</p>
+      <div id="query-suggestions">
+        <ForEach items="{{ state.terminal.completion.suggestions.get()
+                   .into_iter().enumerate().collect::<Vec<_>>() }}" key="{{ |row| row.0 }}">
+          <button class="suggestion"
+                  tabindex="-1"
+                  class:chosen="{{ state.terminal.completion.selected.get() == item.get().0 }}"
+                  on:click="state.terminal.completion.accept(&item.get().1)">
+            <p class="suggestion-label">{{ item.get().1.label }}</p>
+            <p class="suggestion-detail">{{ item.get().1.detail }}</p>
+          </button>
+        </ForEach>
+      </div>
+  </section>
+</template>

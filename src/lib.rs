@@ -8,11 +8,25 @@ pub use clients::FlightSql;
 
 pub trait QueryClient {
     fn query(&self, sql: String) -> BoxFuture<'_, Result<Query, Error>>;
+
+    /// `None` means discovery is unsupported; an empty result means no tables were found.
+    fn tables(&self) -> Option<BoxFuture<'_, Result<Vec<Table>, Error>>> {
+        None
+    }
 }
 
 pub struct Query {
     pub schema: Schema,
     pub batches: BoxStream<'static, Result<RecordBatch, Error>>,
+}
+
+#[derive(Debug, PartialEq)]
+pub struct Table {
+    pub catalog: Option<String>,
+    pub database_schema: Option<String>,
+    pub name: String,
+    pub table_type: String,
+    pub schema: Schema,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -31,6 +45,8 @@ pub enum Error {
     Flight(#[from] arrow_flight::error::FlightError),
     #[error("Cannot decode the query result; check the server's Arrow response: {0}")]
     Arrow(#[from] arrow_schema::ArrowError),
+    #[error("Invalid table metadata column {0}; check the server's table-discovery response")]
+    TableMetadata(&'static str),
     #[error("Server returned an endpoint without a ticket; check the Flight SQL server")]
     MissingTicket,
 }

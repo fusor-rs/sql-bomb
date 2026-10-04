@@ -1,3 +1,4 @@
+mod completion;
 mod connection;
 mod connections;
 mod inspection;
@@ -6,6 +7,7 @@ mod navigation;
 mod recall;
 mod view;
 mod welcome;
+use completion::Completion;
 use connection::ConnectionDraft;
 use connections::ConnectionCatalog;
 use inspection::Inspection;
@@ -55,6 +57,7 @@ pub(crate) struct Terminal {
     owner: OwnerHandle,
     services: Services,
     sql: Signal<String>,
+    completion: Rc<Completion>,
     execution: Signal<Execution>,
     results: Signal<Results>,
     viewport: Signal<Viewport>,
@@ -101,6 +104,7 @@ impl FromInputs for Terminal {
             services: Services::from_owner(&owner)?,
             owner,
             sql: signal(String::new()),
+            completion: Rc::new(Completion::new()?),
             execution: signal(Execution::Idle),
             results: signal(Results::default()),
             viewport: signal(Viewport::default()),
@@ -143,6 +147,7 @@ impl Terminal {
         if !self.can_run() {
             return Ok(());
         }
+        self.completion.dismiss();
         let sql = self.sql.get();
         self.save_query(Change::Executed)?;
         let (abort, registration) = AbortHandle::new_pair();

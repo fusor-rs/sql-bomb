@@ -44,6 +44,44 @@ th { color: #DF5036; }
 .position { height: 1ch; color: #DF5036; padding: 0 1ch; white-space: pre; overflow: hidden; }
 .help, .muted { color: #AAA6A0; white-space: pre; overflow: hidden; }
 .help { height: 1ch; padding: 0 1ch; white-space: normal; }
+.schema-status {
+  flex-direction: row;
+  min-height: 1ch;
+  gap: 2ch;
+  padding: 0 1ch;
+}
+#completion-status {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+  min-height: 1ch;
+  max-height: 3ch;
+  overflow: auto;
+  white-space: normal;
+}
+.suggestions-panel {
+  border-style: rounded;
+  border-color: #DF5036;
+  flex-shrink: 1;
+  min-height: 3ch;
+}
+.suggestions-help {
+  height: 1ch;
+  padding: 0 1ch;
+  color: #AAA6A0;
+  white-space: pre;
+  overflow: hidden;
+}
+#query-suggestions { max-height: 6ch; min-height: 1ch; overflow: auto; flex-shrink: 1; }
+.suggestion { flex-direction: row; height: 1ch; gap: 2ch; padding: 0 1ch; }
+.suggestion-label { flex-grow: 1; min-width: 0; white-space: pre; overflow: hidden; }
+.suggestion-detail {
+  color: #AAA6A0;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: pre;
+  overflow: hidden;
+}
 .connection-screen {
   height: 100%;
   min-height: 0;

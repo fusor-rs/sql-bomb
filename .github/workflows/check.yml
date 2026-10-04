@@ -26,4 +26,4 @@ jobs:
       - name: Install and run the executable
         run: |
           cargo install --path . --locked --debug --root "$RUNNER_TEMP/sql-bomb"
-          "$RUNNER_TEMP/sql-bomb/bin/sql-bomb" --help
+          "$RUNNER_TEMP/sql-bomb/bin/boom" --help

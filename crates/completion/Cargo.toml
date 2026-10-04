@@ -1,0 +1,13 @@
+[package]
+name = "sql-bomb-completion"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+thiserror.workspace = true
+tree-sitter = "=0.25.10"
+tree-sitter-sequel = "=0.3.11"
+
+[lints]
+workspace = true

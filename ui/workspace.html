@@ -2,9 +2,20 @@
   <div class="workspace" class:hidden="{{ state.terminal.screen.get() != Screen::Workspace }}">
     <textarea id="query" autofocus bind="state.terminal.sql"
               class:placeholder="{{ state.terminal.sql.with(String::is_empty) }}"
-              on:input="state.terminal.refresh_star()"
-              on:focus="state.terminal.remember_focus(&event)"
+              on:input="state.terminal.query_input(&event)"
+              on:select="state.terminal.completion.refresh(&event.target)"
+              on:keydown="state.terminal.completion_key(&event)"
+              on:focus="state.terminal.query_focus(&event)"
+              on:blur="state.terminal.completion.requested.set(false)"
               placeholder="SELECT * FROM your_table LIMIT 100;"></textarea>
+    <QuerySuggestions terminal="{{ state.terminal.clone() }}"></QuerySuggestions>
+    <div class="schema-status">
+      <p id="completion-status" class="muted" tabindex="0"
+         on:focus="state.terminal.remember_focus(&event)">{{
+        state.terminal.completion.status.get()
+      }}</p>
+      <button on:click="state.terminal.refresh_schema()">Refresh schema</button>
+    </div>
     <div class="toolbar">
       <button class="primary"
               disabled="{{ !state.terminal.can_run() }}"

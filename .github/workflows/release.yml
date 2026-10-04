@@ -30,6 +30,7 @@ jobs:
     timeout-minutes: 60
     env:
       TARGET: ${{ matrix.target }}
+      EXECUTABLE: boom
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -57,7 +58,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes musl-tools
           echo "CC=musl-gcc" >> "$GITHUB_ENV"
-      - run: cargo build --locked --release --target "$TARGET" --bin sql-bomb
+      - run: cargo build --locked --release --target "$TARGET" --bin "$EXECUTABLE"
       - name: Package and verify the executable
         env:
           VERSION: ${{ steps.version.outputs.version }}
@@ -66,14 +67,14 @@ jobs:
           staging="$RUNNER_TEMP/$name"
           artifacts="$RUNNER_TEMP/artifacts/v$VERSION"
           mkdir -p "$staging" "$artifacts"
-          cp "target/$TARGET/release/sql-bomb" LICENSE README.md "$staging/"
+          cp "target/$TARGET/release/$EXECUTABLE" LICENSE README.md "$staging/"
           COPYFILE_DISABLE=1 tar -czf "$artifacts/$name.tar.gz" -C "$RUNNER_TEMP" "$name"
           cd "$artifacts"
           shasum -a 256 "$name.tar.gz" > "$name.tar.gz.sha256"
           export SQL_BOMB_DOWNLOAD_BASE="file://$RUNNER_TEMP/artifacts"
           export SQL_BOMB_INSTALL="$RUNNER_TEMP/installed sql-bomb"
           sh "$GITHUB_WORKSPACE/install.sh" "v$VERSION"
-          "$SQL_BOMB_INSTALL/bin/sql-bomb" --help
+          "$SQL_BOMB_INSTALL/bin/$EXECUTABLE" --help
           cp "$name.tar.gz" "$RUNNER_TEMP/intact.tar.gz"
           printf 'corrupt download' >> "$name.tar.gz"
           if sh "$GITHUB_WORKSPACE/install.sh" "$VERSION" > "$RUNNER_TEMP/rejected.log" 2>&1; then
@@ -83,7 +84,7 @@ jobs:
           cat "$RUNNER_TEMP/rejected.log"
           grep -Fx 'error: checksum mismatch; download the release again' \
             "$RUNNER_TEMP/rejected.log"
-          cmp "$staging/sql-bomb" "$SQL_BOMB_INSTALL/bin/sql-bomb"
+          cmp "$staging/$EXECUTABLE" "$SQL_BOMB_INSTALL/bin/$EXECUTABLE"
           mv "$RUNNER_TEMP/intact.tar.gz" "$name.tar.gz"
       - uses: actions/upload-artifact@v4
         with:

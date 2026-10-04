@@ -95,10 +95,14 @@ pub(super) struct Menu {
 
 impl Terminal {
     pub(super) fn remember_focus(&self, event: &Event) {
+        if event.target.attribute("id").as_deref() != Some("query") {
+            self.completion.dismiss();
+        }
         self.content_focus.replace(Some(event.target.clone()));
     }
 
     pub(super) fn toggle_menu(&self, event: &Event) {
+        self.completion.dismiss();
         if self.menu.with(Option::is_some) {
             self.close_menu();
             return;
