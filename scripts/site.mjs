@@ -111,7 +111,7 @@ async function checkDocs(page, origin) {
     await page.getByRole("heading", { name: title, exact: true }).waitFor();
     const bodySizes = await page.locator(".article .lead, .article .markdown").evaluateAll(nodes =>
       [...new Set(nodes.map(node => getComputedStyle(node).fontSize))]);
-    assert.deepEqual(bodySizes, ["16px"]);
+    assert.deepEqual(bodySizes, ["14px"]);
     const response = await page.request.get(origin + "docs/content/" + filename);
     assert.equal(response.status(), 200);
     assert.equal(await response.text(), markdown);

@@ -15,12 +15,6 @@ The [client registry](../src/client.rs) supplies the chooser, CLI flags, and
 connection setup. Network operations run in Tokio, Rust's asynchronous runtime,
 so the interface can respond while results arrive.
 
-Each Flight SQL query opens a gRPC connection, executes a statement, and reads all
-returned endpoints in order. When an endpoint advertises multiple locations,
-sql-bomb uses the first. The optional `QueryClient::tables()` method uses the
-Flight SQL `CommandGetTables` operation with schemas included. It returns each
-table's catalog, database schema, name, type, and Arrow column schema.
-
 ## Terminal interface
 
 Fusor connects the [HTML template](../ui/app.html) to

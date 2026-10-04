@@ -1,8 +1,9 @@
 # Get started
 
-sql-bomb runs in a terminal on macOS or Linux. To run queries, you need the address
-of a server that supports [Arrow Flight SQL](flight-sql.md). sql-bomb connects to
-that server; it does not start a database for you.
+sql-bomb runs in a terminal on macOS or Linux. To run queries, you need a running
+database server and its address; the [client reference](flight-sql.md) lists the
+connection types sql-bomb supports. sql-bomb connects to that server; it does not
+start a database for you.
 
 ## Install with Cargo
 
@@ -40,7 +41,7 @@ This method requires a GitHub release with completed binary uploads.
 
 ## Connect to a server
 
-1. Run `boom` and choose **Flight SQL**, the only client currently available.
+1. Run `boom` and choose a client from the chooser.
 2. Enter your server URL, including its scheme and port, such as
    `http://localhost:50051`. This example requires a server already running at that
    address. Use `https://` for a server with TLS encryption.
@@ -56,15 +57,10 @@ SELECT 1 AS value;
 
 Rows appear below the editor as the server sends them. Press Ctrl+C to quit.
 
-For a connection without headers, you can skip the chooser and form:
-
-```sh
-boom --flightsql http://localhost:50051
-```
-
 Once you save a connection, `boom` opens your saved connections instead. See
-[Using sql-bomb](workspace.md) for saving connections and browsing results, or
-[Flight SQL](flight-sql.md) for supported URLs and authentication.
+[Using sql-bomb](workspace.md) for saving connections and browsing results, or the
+[client reference](flight-sql.md) for supported URLs, authentication, and
+command-line shortcuts that skip the chooser and form.
 
 ## Build from source
 

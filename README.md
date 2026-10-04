@@ -8,13 +8,14 @@
 
 # Query SQL. Watch the rows arrive.
 
-sql-bomb is a terminal application for running SQL and streaming results into a
-table. You can inspect complete cell values and return to queries from your local
-history or starred library. The installed executable is named `boom`.
+sql-bomb is a database-agnostic terminal application for running SQL and streaming
+results into a table. You can inspect complete cell values, reopen saved
+connections, and return to queries from your local history or starred library.
+The installed executable is named `boom`.
 
-Flight SQL is currently the only supported connection type. It connects to
-servers that implement Arrow Flight SQL, a protocol for running SQL over gRPC.
-Direct PostgreSQL and MySQL connections are not implemented.
+A client connects sql-bomb to a database server, and every client shares the same
+editor, results table, saved connections, and query library. The
+[client reference](#clients) lists the available clients and their settings.
 
 The terminal interface is built with
 [Hypercmd](https://github.com/fusor-rs/hypercmd) and
@@ -29,9 +30,10 @@ The terminal interface is built with
 
 ## Get started
 
-sql-bomb runs in a terminal on macOS or Linux. To run queries, you need the address
-of a server that supports [Arrow Flight SQL](#clients). sql-bomb connects to
-that server; it does not start a database for you.
+sql-bomb runs in a terminal on macOS or Linux. To run queries, you need a running
+database server and its address; the [client reference](#clients) lists the
+connection types sql-bomb supports. sql-bomb connects to that server; it does not
+start a database for you.
 
 ### Install with Cargo
 
@@ -69,7 +71,7 @@ This method requires a GitHub release with completed binary uploads.
 
 ### Connect to a server
 
-1. Run `boom` and choose **Flight SQL**, the only client currently available.
+1. Run `boom` and choose a client from the chooser.
 2. Enter your server URL, including its scheme and port, such as
    `http://localhost:50051`. This example requires a server already running at that
    address. Use `https://` for a server with TLS encryption.
@@ -85,15 +87,10 @@ SELECT 1 AS value;
 
 Rows appear below the editor as the server sends them. Press Ctrl+C to quit.
 
-For a connection without headers, you can skip the chooser and form:
-
-```sh
-boom --flightsql http://localhost:50051
-```
-
 Once you save a connection, `boom` opens your saved connections instead. See
-[Using sql-bomb](#using-sql-bomb) for saving connections and browsing results, or
-[Flight SQL](#clients) for supported URLs and authentication.
+[Using sql-bomb](#using-sql-bomb) for saving connections and browsing results, or the
+[client reference](#clients) for supported URLs, authentication, and
+command-line shortcuts that skip the chooser and form.
 
 ### Build from source
 
@@ -243,8 +240,7 @@ Clients provide connection settings and query execution. The editor, result
 browser, saved connections, and query library share the same workspace regardless
 of the selected client.
 
-Flight SQL is currently the only implemented client. PostgreSQL and MySQL clients
-are not implemented.
+Available clients are listed below.
 
 ### Flight SQL
 

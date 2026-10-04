@@ -1,11 +1,15 @@
-# Clients and Flight SQL
+# Clients
 
-A client is the part of sql-bomb that connects to a server and runs queries.
-Flight SQL is currently the only client; PostgreSQL and MySQL clients are not
-implemented. Arrow Flight SQL sends SQL over gRPC and receives results in Apache
-Arrow format, which preserves each column's data type.
+A client is the part of sql-bomb that connects to a server and runs queries. The
+editor, results, saved connections, and query library work the same way with every
+client. Available clients are listed below.
 
-## Connection address
+## Flight SQL
+
+Arrow Flight SQL sends SQL over gRPC and receives results in Apache Arrow format,
+which preserves each column's data type.
+
+### Connection address
 
 Choose **Flight SQL** in the client chooser, or pass its flag:
 
@@ -24,7 +28,7 @@ query parameters do not belong in the URL. Use `http://` or `grpc+tcp://` for an
 unencrypted connection. Use `https://` or `grpc+tls://` for TLS encryption with
 certificates trusted by your operating system.
 
-## Authentication
+### Authentication
 
 Headers are extra name/value pairs sent with a request, often to carry a token.
 Leave the field empty if your server needs none. Otherwise, enter one header per
@@ -45,7 +49,7 @@ configured server. See the
 [Arrow Flight protocol](https://arrow.apache.org/docs/format/Flight.html) for the
 protocol's endpoint and authentication conventions.
 
-## Remembering headers
+### Remembering headers
 
 Headers stay in memory unless you check **Remember headers securely** when saving
 a connection. This option is off by default. It stores headers in macOS Keychain

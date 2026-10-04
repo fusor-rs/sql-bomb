@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#faf9f6" />
     <meta name="description"
-      content="A Rust SQL terminal powered by Hypercmd and Fusor. Query SQL. Watch the rows arrive." />
+      content="A database-agnostic SQL terminal powered by Hypercmd and Fusor." />
     <meta property="og:title" content="sql-bomb — Ultrafast SQL Client in your Terminal" />
     <meta property="og:description"
       content="Write SQL, explore streaming results, and keep the queries worth running again." />
@@ -31,8 +31,8 @@
             </p>
             <h1 id="headline">Ultrafast SQL Client<br />in your <span>Terminal</span></h1>
             <p class="description">
-              sql-bomb is a fast SQL client for querying databases and streaming results
-              in a beautiful terminal interface, powered by
+              sql-bomb is a fast, database-agnostic SQL workspace for querying databases
+              and streaming results in a beautiful terminal interface, powered by
               <a href="https://github.com/fusor-rs/hypercmd">Hypercmd</a>
               and <a href="https://fusor.build/">Fusor</a>.
             </p>
@@ -74,8 +74,7 @@
               {{ state.scene.get().description }}
             </p>
             <p class="example-caption">
-              A recorded walkthrough of sql-bomb, running against a local
-              <a href="/docs/flight-sql">Flight SQL</a> server with sample data.
+              A recorded walkthrough of sql-bomb, running against a local server with sample data.
               Hover to pause, or choose a view above to explore.
             </p>
           </section>

@@ -1,12 +1,13 @@
 # sql-bomb
 
-sql-bomb is a terminal application for running SQL and streaming results into a
-table. You can inspect complete cell values and return to queries from your local
-history or starred library. The installed executable is named `boom`.
+sql-bomb is a database-agnostic terminal application for running SQL and streaming
+results into a table. You can inspect complete cell values, reopen saved
+connections, and return to queries from your local history or starred library.
+The installed executable is named `boom`.
 
-Flight SQL is currently the only supported connection type. It connects to
-servers that implement Arrow Flight SQL, a protocol for running SQL over gRPC.
-Direct PostgreSQL and MySQL connections are not implemented.
+A client connects sql-bomb to a database server, and every client shares the same
+editor, results table, saved connections, and query library. The
+[client reference](flight-sql.md) lists the available clients and their settings.
 
 The terminal interface is built with
 [Hypercmd](https://github.com/fusor-rs/hypercmd) and
