@@ -23,14 +23,12 @@ jobs:
     environment: vercel
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+      VERCEL_ORG_ID: team_hpDr5Biqje4Idy2xKGjdDRsn
+      VERCEL_PROJECT_ID: prj_GsqVkxiwT2RatS4edeqUtwzYEtaI
     steps:
-      - name: Verify Vercel configuration
+      - name: Verify Vercel token
         run: |
           : "${VERCEL_TOKEN:?Set the VERCEL_TOKEN secret in the vercel environment}"
-          : "${VERCEL_ORG_ID:?Set the VERCEL_ORG_ID variable in the vercel environment}"
-          : "${VERCEL_PROJECT_ID:?Set the VERCEL_PROJECT_ID variable in the vercel environment}"
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:

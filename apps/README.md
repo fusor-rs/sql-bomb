@@ -43,14 +43,11 @@ do not prerender a separate HTML document for each route.
 
 ## Vercel deployment
 
-Create a Vercel project for sql-bomb with the repository root as its root
-directory. Create a GitHub environment named `vercel` with:
-
-| Kind | Name | Value |
-| --- | --- | --- |
-| Secret | `VERCEL_TOKEN` | A Vercel token with access to the project |
-| Variable | `VERCEL_ORG_ID` | The project's Vercel team/account ID |
-| Variable | `VERCEL_PROJECT_ID` | The sql-bomb Vercel project ID |
+The `sql-bomb` Vercel project has `boom.fusor.build` as its domain and uses the
+repository root as its root directory. Configure a `VERCEL_TOKEN` secret with access to the
+project in the GitHub environment named `vercel`. The non-secret team and project
+IDs are defined in the [deployment workflow](../.github/workflows/deploy-site.yml),
+following Hypercmd's setup.
 
 Run **Deploy site** from GitHub Actions and choose production or preview.
 Like Hypercmd, deployment is manual: pushes run checks and Vercel Git deployments
@@ -72,5 +69,5 @@ just deploy production
 
 For a preview, use `preview` in both commands. Vercel's
 [prebuilt deployment documentation](https://vercel.com/docs/cli/deploy#prebuilt)
-describes the build/upload flow. Project credentials and generated output stay
+describes the build/upload flow. Tokens and generated output stay
 outside version control.
