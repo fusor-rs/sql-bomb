@@ -1,5 +1,6 @@
 [workspace]
 members = [".", "crates/completion"]
+exclude = ["apps"]
 resolver = "3"
 
 [workspace.dependencies]
@@ -12,10 +13,17 @@ version = "0.1.0"
 edition = "2024"
 license = "MIT"
 description = "A terminal workspace for SQL queries and streaming results"
+repository = "https://github.com/fusor-rs/sql-bomb"
+include = ["src/**", "ui/**", "tests/**", "assets/brand/**", "examples/site-preview/**",
+    "build.rs", "Cargo.toml", "Cargo.lock", "LICENSE", "README.md"]
 
 [[bin]]
 name = "boom"
 path = "src/main.rs"
+
+[[example]]
+name = "site-preview"
+path = "src/site_preview.rs"
 
 [package.metadata.hypercmd]
 entry = "ui/app.html"
@@ -35,7 +43,7 @@ keyring = { version = "=3.6.3", features = [
     "apple-native", "sync-secret-service", "crypto-rust", "vendored",
 ] }
 rusqlite = { version = "=0.33.0", features = ["bundled"] }
-sql-bomb-completion = { path = "crates/completion" }
+sql-bomb-completion = { path = "crates/completion", version = "=0.1.0" }
 thiserror.workspace = true
 tokio.workspace = true
 tonic = { version = "=0.14.6", features = ["tls-ring", "tls-native-roots"] }
@@ -47,10 +55,12 @@ default-features = false
 features = ["derive"]
 
 [dependencies.hypercmd]
+version = "=0.1.0"
 git = "https://github.com/fusor-rs/hypercmd"
 rev = "a910ab9e084df3e352e620b422d177fd0f6d75da"
 
 [build-dependencies.hypercmd-build]
+version = "=0.1.0"
 git = "https://github.com/fusor-rs/hypercmd"
 rev = "a910ab9e084df3e352e620b422d177fd0f6d75da"
 

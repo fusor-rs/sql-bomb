@@ -3,6 +3,8 @@ name = "sql-bomb-completion"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
+description = "SQL table and column completion from cursor position and catalog metadata"
+repository = "https://github.com/fusor-rs/sql-bomb"
 
 [dependencies]
 thiserror.workspace = true

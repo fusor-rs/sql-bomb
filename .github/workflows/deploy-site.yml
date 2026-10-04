@@ -1,0 +1,53 @@
+name: Deploy site
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Deploy to production or a preview URL
+        type: choice
+        options: [production, preview]
+        default: production
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: vercel
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Verify Vercel configuration
+        run: |
+          : "${VERCEL_TOKEN:?Set the VERCEL_TOKEN secret in the vercel environment}"
+          : "${VERCEL_ORG_ID:?Set the VERCEL_ORG_ID variable in the vercel environment}"
+          : "${VERCEL_PROJECT_ID:?Set the VERCEL_PROJECT_ID variable in the vercel environment}"
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps -> target
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
+      - run: just setup-browser
+      - run: just site-check
+      - run: npm install --global vercel@59.23.2
+      - run: vercel pull --yes --environment=${{ inputs.environment }}
+      - run: just deploy ${{ inputs.environment }}

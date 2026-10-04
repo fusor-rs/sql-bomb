@@ -1,0 +1,566 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 476">
+<rect width="100%" height="100%" fill="#272a2c"/>
+<g font-family="Menlo,Consolas,monospace" font-size="13">
+<rect x="0" y="0" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="0" width="16" height="17" fill="#272a2c"/>
+<text x="8" y="13" fill="#df5036" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="16"
+lengthAdjust="spacingAndGlyphs">›_</text>
+<rect x="24" y="0" width="72" height="17" fill="#272a2c"/>
+<text x="24" y="13" fill="#faf9f6" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="72"
+lengthAdjust="spacingAndGlyphs"> sql-bomb</text>
+<rect x="96" y="0" width="480" height="17" fill="#272a2c"/>
+<text x="96" y="13" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="480"
+lengthAdjust="spacingAndGlyphs">  Flight SQL · http://127.0.0.1:51201                       </text>
+<rect x="576" y="0" width="72" height="17" fill="#a83228"/>
+<text x="576" y="13" fill="#faf9f6" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="72"
+lengthAdjust="spacingAndGlyphs"> Menu ^K </text>
+<rect x="648" y="0" width="232" height="17" fill="#272a2c"/>
+<text x="648" y="13" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="232"
+lengthAdjust="spacingAndGlyphs">   Library ^P    Connection  </text>
+<rect x="0" y="17" width="880" height="17" fill="#272a2c"/>
+<rect x="0" y="34" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="34" width="768" height="17" fill="#272a2c"/>
+<text x="8" y="47" fill="#faf9f6" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="768"
+lengthAdjust="spacingAndGlyphs">Query library                                                                                   </text>
+<rect x="776" y="34" width="104" height="17" fill="#272a2c"/>
+<text x="776" y="47" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="104"
+lengthAdjust="spacingAndGlyphs">   Back Esc  </text>
+<rect x="0" y="51" width="880" height="17" fill="#272a2c"/>
+<rect x="0" y="68" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="68" width="72" height="17" fill="#34312f"/>
+<text x="8" y="81" fill="#faf9f6" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="72"
+lengthAdjust="spacingAndGlyphs"> History </text>
+<rect x="80" y="68" width="120" height="17" fill="#272a2c"/>
+<text x="80" y="81" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="120"
+lengthAdjust="spacingAndGlyphs">   ★ Starred   </text>
+<rect x="200" y="68" width="160" height="17" fill="#272a2c"/>
+<text x="200" y="81" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="160"
+lengthAdjust="spacingAndGlyphs">Saved on this device</text>
+<rect x="360" y="68" width="520" height="17" fill="#272a2c"/>
+<rect x="0" y="85" width="880" height="17" fill="#272a2c"/>
+<rect x="0" y="102" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="102" width="864" height="17" fill="#272a2c"/>
+<text x="8" y="115" fill="#df5036" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="none" textLength="864"
+lengthAdjust="spacingAndGlyphs">┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐</text>
+<rect x="872" y="102" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="119" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="119" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="132" fill="#df5036" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="119" width="8" height="17" fill="#272a2c"/>
+<rect x="24" y="119" width="8" height="17" fill="#272a2c"/>
+<text x="24" y="132" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="underline" textLength="8"
+lengthAdjust="spacingAndGlyphs">S</text>
+<rect x="32" y="119" width="832" height="17" fill="#272a2c"/>
+<text x="32" y="132" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="none" textLength="832"
+lengthAdjust="spacingAndGlyphs">earch SQL or connection…                                                                                </text>
+<rect x="864" y="119" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="132" fill="#df5036" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="119" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="136" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="136" width="864" height="17" fill="#272a2c"/>
+<text x="8" y="149" fill="#df5036" font-weight="normal"
+style="white-space:pre"
+font-style="italic" text-decoration="none" textLength="864"
+lengthAdjust="spacingAndGlyphs">└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘</text>
+<rect x="872" y="136" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="153" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="153" width="384" height="17" fill="#272a2c"/>
+<text x="8" y="166" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="384"
+lengthAdjust="spacingAndGlyphs">╭──────────────────────────────────────────────╮</text>
+<rect x="392" y="153" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="153" width="472" height="17" fill="#272a2c"/>
+<text x="400" y="166" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="472"
+lengthAdjust="spacingAndGlyphs">╭─────────────────────────────────────────────────────────╮</text>
+<rect x="872" y="153" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="170" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="170" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="183" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="170" width="368" height="17" fill="#272a2c"/>
+<text x="16" y="183" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="368"
+lengthAdjust="spacingAndGlyphs"> QUERIES · newest first                       </text>
+<rect x="384" y="170" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="183" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="170" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="170" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="183" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="170" width="8" height="17" fill="#272a2c"/>
+<rect x="416" y="170" width="440" height="17" fill="#272a2c"/>
+<text x="416" y="183" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="440"
+lengthAdjust="spacingAndGlyphs"> SQL PREVIEW                                           </text>
+<rect x="856" y="170" width="8" height="17" fill="#272a2c"/>
+<rect x="864" y="170" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="183" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="170" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="187" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="187" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="200" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="187" width="368" height="17" fill="#34312f"/>
+<text x="16" y="200" fill="#faf9f6" font-weight="bold"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="368"
+lengthAdjust="spacingAndGlyphs"> ›★ SELECT city, country, distance_km FROM d… </text>
+<rect x="384" y="187" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="200" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="187" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="187" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="200" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="187" width="8" height="17" fill="#272a2c"/>
+<rect x="416" y="187" width="440" height="17" fill="#272a2c"/>
+<text x="416" y="200" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="440"
+lengthAdjust="spacingAndGlyphs">2026-10-03 22:59:13 · http://127.0.0.1:51201           </text>
+<rect x="856" y="187" width="8" height="17" fill="#272a2c"/>
+<rect x="864" y="187" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="200" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="187" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="204" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="204" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="217" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="204" width="8" height="17" fill="#34312f"/>
+<rect x="24" y="204" width="352" height="17" fill="#34312f"/>
+<text x="24" y="217" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="352"
+lengthAdjust="spacingAndGlyphs">2026-10-03 22:59:13 · http://127.0.0.1:51201</text>
+<rect x="376" y="204" width="8" height="17" fill="#34312f"/>
+<rect x="384" y="204" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="217" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="204" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="204" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="217" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="204" width="456" height="17" fill="#272a2c"/>
+<text x="408" y="217" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="456"
+lengthAdjust="spacingAndGlyphs"> SELECT city, country, distance_km                       </text>
+<rect x="864" y="204" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="217" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="204" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="221" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="221" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="234" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="221" width="368" height="17" fill="#34312f"/>
+<rect x="384" y="221" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="234" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="221" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="221" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="234" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="221" width="456" height="17" fill="#272a2c"/>
+<text x="408" y="234" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="456"
+lengthAdjust="spacingAndGlyphs"> FROM destinations                                       </text>
+<rect x="864" y="221" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="234" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="221" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="238" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="238" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="251" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="238" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="238" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="251" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="238" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="238" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="251" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="238" width="456" height="17" fill="#272a2c"/>
+<text x="408" y="251" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="456"
+lengthAdjust="spacingAndGlyphs"> ORDER BY distance_km;                                   </text>
+<rect x="864" y="238" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="251" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="238" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="255" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="255" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="268" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="255" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="255" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="268" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="255" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="255" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="268" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="255" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="255" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="268" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="255" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="272" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="272" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="285" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="272" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="272" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="285" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="272" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="272" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="285" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="272" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="272" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="285" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="272" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="289" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="289" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="302" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="289" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="289" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="302" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="289" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="289" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="302" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="289" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="289" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="302" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="289" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="306" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="306" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="319" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="306" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="306" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="319" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="306" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="306" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="319" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="306" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="306" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="319" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="306" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="323" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="323" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="336" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="323" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="323" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="336" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="323" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="323" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="336" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="323" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="323" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="336" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="323" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="340" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="340" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="353" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="340" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="340" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="353" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="340" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="340" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="353" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="340" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="340" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="353" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="340" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="357" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="357" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="370" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="357" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="357" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="370" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="357" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="357" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="370" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="357" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="357" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="370" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="357" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="374" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="374" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="387" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="374" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="374" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="387" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="374" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="374" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="387" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="374" width="456" height="17" fill="#272a2c"/>
+<rect x="864" y="374" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="387" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="374" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="391" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="391" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="404" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="391" width="368" height="17" fill="#272a2c"/>
+<rect x="384" y="391" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="404" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="391" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="391" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="404" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="391" width="8" height="17" fill="#272a2c"/>
+<rect x="416" y="391" width="440" height="17" fill="#272a2c"/>
+<text x="416" y="404" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="440"
+lengthAdjust="spacingAndGlyphs">Loads into your current connection.                    </text>
+<rect x="856" y="391" width="8" height="17" fill="#272a2c"/>
+<rect x="864" y="391" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="404" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="391" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="408" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="408" width="8" height="17" fill="#272a2c"/>
+<text x="8" y="421" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="16" y="408" width="368" height="17" fill="#272a2c"/>
+<text x="16" y="421" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="368"
+lengthAdjust="spacingAndGlyphs"> 1 query                                      </text>
+<rect x="384" y="408" width="8" height="17" fill="#272a2c"/>
+<text x="384" y="421" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="392" y="408" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="408" width="8" height="17" fill="#272a2c"/>
+<text x="400" y="421" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="408" y="408" width="8" height="17" fill="#272a2c"/>
+<rect x="416" y="408" width="104" height="17" fill="#272a2c"/>
+<text x="416" y="421" fill="#df5036" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="104"
+lengthAdjust="spacingAndGlyphs"> Use query ↵ </text>
+<rect x="520" y="408" width="344" height="17" fill="#272a2c"/>
+<text x="520" y="421" fill="#faf9f6" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="344"
+lengthAdjust="spacingAndGlyphs">   ★ Unstar ^S                             </text>
+<rect x="864" y="408" width="8" height="17" fill="#272a2c"/>
+<text x="864" y="421" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="8"
+lengthAdjust="spacingAndGlyphs">│</text>
+<rect x="872" y="408" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="425" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="425" width="384" height="17" fill="#272a2c"/>
+<text x="8" y="438" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="384"
+lengthAdjust="spacingAndGlyphs">╰──────────────────────────────────────────────╯</text>
+<rect x="392" y="425" width="8" height="17" fill="#272a2c"/>
+<rect x="400" y="425" width="472" height="17" fill="#272a2c"/>
+<text x="400" y="438" fill="#555452" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="472"
+lengthAdjust="spacingAndGlyphs">╰─────────────────────────────────────────────────────────╯</text>
+<rect x="872" y="425" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="442" width="8" height="17" fill="#272a2c"/>
+<rect x="8" y="442" width="864" height="17" fill="#272a2c"/>
+<text x="8" y="455" fill="#aaa6a0" font-weight="normal"
+style="white-space:pre"
+font-style="normal" text-decoration="none" textLength="864"
+lengthAdjust="spacingAndGlyphs"> ↑↓ choose · Enter load · Esc back · Menu for more actions                                                  </text>
+<rect x="872" y="442" width="8" height="17" fill="#272a2c"/>
+<rect x="0" y="459" width="880" height="17" fill="#272a2c"/>
+</g>
+</svg>

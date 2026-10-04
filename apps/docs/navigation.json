@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "",
+    "group": "Learn"
+  },
+  {
+    "slug": "get-started",
+    "group": "Learn"
+  },
+  {
+    "slug": "workspace",
+    "group": "Learn"
+  },
+  {
+    "slug": "flight-sql",
+    "group": "Reference",
+    "reference": true
+  },
+  {
+    "slug": "architecture",
+    "group": "Reference"
+  },
+  {
+    "slug": "status",
+    "group": "Reference"
+  }
+]

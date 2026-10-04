@@ -1,0 +1,31 @@
+.site {
+  --bg: #faf9f6;
+  --panel: #f4f1ed;
+  --text: #272a2c;
+  --accent: #a83228;
+  --wash: #f8eae5;
+}
+.site.dark {
+  --bg: #211c1b;
+  --panel: #292220;
+  --text: #faf9f6;
+  --accent: #ff9983;
+  --wash: #442924;
+}
+
+.article .lead,
+.article .markdown {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.article .inline-code {
+  font-size: 0.95em;
+}
+.article pre {
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.markdown td:first-child code {
+  white-space: nowrap;
+}
