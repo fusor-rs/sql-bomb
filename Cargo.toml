@@ -15,7 +15,7 @@ license = "MIT"
 description = "A terminal workspace for SQL queries and streaming results"
 repository = "https://github.com/fusor-rs/sql-bomb"
 include = ["src/**", "ui/**", "tests/**", "assets/brand/**", "examples/site-preview/**",
-    "build.rs", "Cargo.toml", "Cargo.lock", "LICENSE", "README.md"]
+    "build.rs", "install.sh", "Cargo.toml", "Cargo.lock", "LICENSE", "README.md"]
 
 [[bin]]
 name = "boom"
@@ -43,6 +43,9 @@ keyring = { version = "=3.6.3", features = [
     "apple-native", "sync-secret-service", "crypto-rust", "vendored",
 ] }
 rusqlite = { version = "=0.33.0", features = ["bundled"] }
+semver = "=1.0.28"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
 sql-bomb-completion = { path = "crates/completion", version = "=0.1.0" }
 thiserror.workspace = true
 tokio.workspace = true
@@ -67,6 +70,7 @@ rev = "a910ab9e084df3e352e620b422d177fd0f6d75da"
 [dev-dependencies]
 portable-pty = "=0.9.0"
 prost = "=0.14.3"
+tempfile = "=3.27.0"
 tokio = { workspace = true, features = ["macros"] }
 tokio-stream = { version = "=0.1.19", features = ["net"] }
 vt100 = "=0.15.2"

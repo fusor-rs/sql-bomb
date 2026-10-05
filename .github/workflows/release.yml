@@ -158,3 +158,17 @@ jobs:
           else
             cargo publish --workspace --locked "${skip[@]}"
           fi
+
+  ready:
+    if: github.event_name == 'release'
+    needs: [attach, crates-io]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mark the release ready for upgrades
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" install.sh --clobber --repo "$GITHUB_REPOSITORY"

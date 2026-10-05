@@ -1,9 +1,11 @@
 use crate::client::{CLIENTS, Startup};
 
-const COMMAND: &str = env!("CARGO_BIN_NAME");
+pub(crate) const COMMAND: &str = env!("CARGO_BIN_NAME");
 
 pub(crate) enum Command {
     Help,
+    Version,
+    Upgrade,
     Start(Startup),
 }
 
@@ -15,6 +17,17 @@ pub(crate) fn parse(
     };
     if matches!(first.as_str(), "--help" | "-h") {
         return Ok(Command::Help);
+    }
+    let command = match first.as_str() {
+        "--version" | "-V" => Some(Command::Version),
+        "upgrade" => Some(Command::Upgrade),
+        _ => None,
+    };
+    if let Some(command) = command {
+        if arguments.next().is_some() {
+            return Err(format!("Unexpected argument; run {COMMAND} --help for usage").into());
+        }
+        return Ok(command);
     }
     let client = CLIENTS.iter().find(|client| client.profile().flag == first);
     let address = if client.is_some() {
@@ -43,6 +56,7 @@ pub(crate) fn help() {
     println!(
         "Usage: {COMMAND} [CLIENT [CONNECTION]]
        {COMMAND} [CONNECTION]
+       {COMMAND} upgrade
 
 Without arguments, open saved connections or choose a client.
 A client flag opens its connection form; adding a connection opens the workspace.
@@ -55,7 +69,9 @@ Available clients:"
     }
     println!(
         "
-  -h, --help  Show this help
+  upgrade        Upgrade to the latest stable release
+  -h, --help     Show this help
+  -V, --version  Show the installed version
 
 Ctrl+R runs SQL · Ctrl+E edits · Ctrl+L browses results · Ctrl+C quits."
     );

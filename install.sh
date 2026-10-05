@@ -34,13 +34,7 @@ verify_archive() {
   [ "$expected" = "${actual%% *}" ] || fail "checksum mismatch; download the release again"
 }
 
-main() {
-  [ "$#" -le 1 ] || fail "usage: sh install.sh [VERSION]"
-  for tool in curl tar; do
-    command -v "$tool" >/dev/null 2>&1 || fail "install $tool before running this installer"
-  done
-  target=$(release_target)
-  releases="https://github.com/fusor-rs/sql-bomb/releases"
+release_version() {
   version=${1:-}
   if [ -z "$version" ]; then
     latest=$(curl -fsSL -o /dev/null -w '%{url_effective}' "$releases/latest") ||
@@ -54,17 +48,37 @@ main() {
   case "$version" in
     '' | *[!0-9A-Za-z.+-]*) fail "invalid version; use a release version such as v0.1.0" ;;
   esac
-  download_base=${SQL_BOMB_DOWNLOAD_BASE:-$releases/download}
-  install_directory=${SQL_BOMB_INSTALL:-$HOME/.sqlbomb}
-  executable=boom
-  [ ! -d "$install_directory/bin/$executable" ] ||
-    fail "$install_directory/bin/$executable is a directory; choose another SQL_BOMB_INSTALL"
+  printf '%s\n' "$version"
+}
+
+main() {
+  action=${1:-}
+  if [ "$action" = --archive ]; then
+    [ "$#" -eq 2 ] || fail "usage: sh install.sh --archive VERSION"
+    shift
+  fi
+  [ "$#" -le 1 ] || fail "usage: sh install.sh [VERSION]"
+  releases="https://github.com/fusor-rs/sql-bomb/releases"
+  target=$(release_target)
+  version=$(release_version "${1:-}")
   name="sql-bomb-$version-$target"
   archive="$name.tar.gz"
+  if [ "$action" = --archive ]; then
+    printf '%s\n' "$archive"
+    return
+  fi
+  for tool in curl tar; do
+    command -v "$tool" >/dev/null 2>&1 || fail "install $tool before running this installer"
+  done
+  download_base=${SQL_BOMB_DOWNLOAD_BASE:-$releases/download}
+  executable=boom
+  destination=${SQL_BOMB_BIN:-${SQL_BOMB_INSTALL:-$HOME/.sqlbomb}/bin/$executable}
+  [ ! -d "$destination" ] || fail "$destination is a directory; choose another installation path"
+  bin_directory=$(dirname "$destination")
   url="$download_base/v$version/$archive"
   umask 077
-  mkdir -p "$install_directory/bin"
-  temporary=$(mktemp -d "$install_directory/bin/.install.XXXXXX")
+  mkdir -p "$bin_directory"
+  temporary=$(mktemp -d "$bin_directory/.install.XXXXXX")
   trap 'rm -r "$temporary"' 0
   trap 'exit 1' HUP INT TERM
 
@@ -74,12 +88,19 @@ main() {
     fail "cannot download $url.sha256"
   verify_archive "$temporary/$archive"
   tar -xzf "$temporary/$archive" -C "$temporary" "$name/$executable"
-  chmod 755 "$temporary/$name/$executable"
-  mv -f "$temporary/$name/$executable" "$install_directory/bin/$executable"
-  printf 'Installed sql-bomb v%s to %s/bin/%s\n' "$version" "$install_directory" "$executable"
+  replacement="$temporary/$name/$executable"
+  [ -f "$replacement" ] && [ ! -L "$replacement" ] ||
+    fail "archive has no regular $executable executable"
+  chmod 755 "$replacement"
+  installed_version=$("$replacement" --version) || fail "downloaded $executable could not run"
+  [ "$installed_version" = "$executable $version" ] ||
+    fail "downloaded $executable has the wrong version"
+  mv -f "$replacement" "$destination"
+  printf 'Installed sql-bomb v%s to %s\n' "$version" "$destination"
+  [ -z "${SQL_BOMB_BIN:-}" ] || return 0
   case ":$PATH:" in
-    *":$install_directory/bin:"*) ;;
-    *) printf 'Add %s/bin to PATH in your shell profile.\n' "$install_directory" ;;
+    *":$bin_directory:"*) ;;
+    *) printf 'Add %s to PATH in your shell profile.\n' "$bin_directory" ;;
   esac
 }
 

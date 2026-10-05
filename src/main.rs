@@ -5,6 +5,7 @@ mod results;
 mod terminal;
 #[cfg(test)]
 mod tests;
+mod upgrade;
 
 use terminal::Terminal;
 
@@ -14,6 +15,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             cli::help();
             return Ok(());
         }
+        cli::Command::Version => {
+            println!("{} {}", cli::COMMAND, env!("CARGO_PKG_VERSION"));
+            return Ok(());
+        }
+        cli::Command::Upgrade => return upgrade::run(),
         cli::Command::Start(startup) => startup,
     };
     let home =

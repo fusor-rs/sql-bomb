@@ -32,12 +32,25 @@ boom
 ```
 
 Add the `export` line to your shell profile, such as `~/.zshrc` or `~/.bashrc`, so
-new terminals can find `boom`. Run the installer again to upgrade. To select a
+new terminals can find `boom`. Run `boom upgrade` to upgrade. To select a
 release, append `-s -- v0.1.0` to `sh`. Set `SQL_BOMB_INSTALL` on the `sh` command
 to choose a different install directory; the executable goes in its `bin/`.
 Saved connections, query history, and stars are left untouched.
 
 This method requires a GitHub release with completed binary uploads.
+
+## Upgrade
+
+Run this to update to the latest stable version:
+
+```sh
+boom upgrade
+```
+
+If you're already up to date, nothing happens. Your saved connections, query
+history, and stars stay in place.
+
+To check which version you're running, use `boom --version`.
 
 ## Connect to a server
 

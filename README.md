@@ -62,12 +62,25 @@ boom
 ```
 
 Add the `export` line to your shell profile, such as `~/.zshrc` or `~/.bashrc`, so
-new terminals can find `boom`. Run the installer again to upgrade. To select a
+new terminals can find `boom`. Run `boom upgrade` to upgrade. To select a
 release, append `-s -- v0.1.0` to `sh`. Set `SQL_BOMB_INSTALL` on the `sh` command
 to choose a different install directory; the executable goes in its `bin/`.
 Saved connections, query history, and stars are left untouched.
 
 This method requires a GitHub release with completed binary uploads.
+
+### Upgrade
+
+Run this to update to the latest stable version:
+
+```sh
+boom upgrade
+```
+
+If you're already up to date, nothing happens. Your saved connections, query
+history, and stars stay in place.
+
+To check which version you're running, use `boom --version`.
 
 ### Connect to a server
 
@@ -370,6 +383,12 @@ all binary builds pass. Configure a GitHub environment named `crates-io` with a
 `CARGO_REGISTRY_TOKEN` secret authorized to publish both crates. The workflow
 verifies the packaged workspace before uploading and skips versions already
 published when a release is rerun.
+
+After binary uploads and crate publication succeed, the workflow attaches
+`install.sh` as the release's readiness marker. `boom upgrade` offers a newer
+release only when its assets include `install.sh` and the user's platform
+archive with its `.sha256` file; otherwise it reports that the release is still
+being published.
 
 Crates.io publication requires a Hypercmd release containing the selection events
 and `Node::replace_range` API used here. Published Hypercmd 0.1.0 lacks those APIs;
