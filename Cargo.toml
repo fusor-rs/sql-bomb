@@ -58,14 +58,10 @@ default-features = false
 features = ["derive"]
 
 [dependencies.hypercmd]
-version = "=0.1.0"
-git = "https://github.com/fusor-rs/hypercmd"
-rev = "a910ab9e084df3e352e620b422d177fd0f6d75da"
+version = "=0.1.1"
 
 [build-dependencies.hypercmd-build]
-version = "=0.1.0"
-git = "https://github.com/fusor-rs/hypercmd"
-rev = "a910ab9e084df3e352e620b422d177fd0f6d75da"
+version = "=0.1.1"
 
 [dev-dependencies]
 portable-pty = "=0.9.0"

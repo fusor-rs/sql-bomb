@@ -344,7 +344,7 @@ Connection views live together in `ui/connections/`. `ui/app.html` composes them
 with the workspace, library, inspector, and menu templates. Their shared terminal
 input is registered in
 `src/terminal/view.rs`; styles live in `ui/terminal.css`.
-Dependencies and the upstream hypercmd Git revision are pinned.
+Dependency versions are pinned.
 
 Run the required checks:
 
@@ -389,12 +389,6 @@ After binary uploads and crate publication succeed, the workflow attaches
 release only when its assets include `install.sh` and the user's platform
 archive with its `.sha256` file; otherwise it reports that the release is still
 being published.
-
-Crates.io publication requires a Hypercmd release containing the selection events
-and `Node::replace_range` API used here. Published Hypercmd 0.1.0 lacks those APIs;
-update both Hypercmd dependency versions and their Git revision to a compatible
-release before publishing sql-bomb. The package verification step rejects the
-current registry dependencies.
 
 Running Release manually produces workflow artifacts without publishing them.
 Windows binaries and a PowerShell installer require Windows support in Hypercmd's

@@ -1359,8 +1359,9 @@ dependencies = [
 
 [[package]]
 name = "hypercmd"
-version = "0.1.0"
-source = "git+https://github.com/fusor-rs/hypercmd?rev=a910ab9e084df3e352e620b422d177fd0f6d75da#a910ab9e084df3e352e620b422d177fd0f6d75da"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08008839b66cedbeffcf7e7686dcb7d7d6a734cd10346f7996429bc9f1dc0283"
 dependencies = [
  "crossterm",
  "fusor-async",
@@ -1376,12 +1377,14 @@ dependencies = [
  "taffy",
  "unicode-segmentation",
  "unicode-width 0.2.0",
+ "web-time",
 ]
 
 [[package]]
 name = "hypercmd-build"
-version = "0.1.0"
-source = "git+https://github.com/fusor-rs/hypercmd?rev=a910ab9e084df3e352e620b422d177fd0f6d75da#a910ab9e084df3e352e620b422d177fd0f6d75da"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b592fb7d3e702aa22b3bd7a3fd5839fbdef97625968fab22e5135bf72bc5b165"
 dependencies = [
  "fusor-build",
  "proc-macro2",
@@ -3148,6 +3151,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23f0c9c52aa7cd7d77769a4cfe2a9adb1b331f489a41d912ce14513d5ab995c6"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "web-time"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5a6580f308b1fad9207618087a65c04e7a10bc77e02c8e84e9b00dd4b12fa0bb"
+dependencies = [
+ "js-sys",
+ "wasm-bindgen",
 ]
 
 [[package]]
