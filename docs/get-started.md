@@ -55,11 +55,13 @@ To check which version you're running, use `boom --version`.
 ## Connect to a server
 
 1. Run `boom` and choose a client from the chooser.
-2. Enter your server URL, including its scheme and port, such as
-   `http://localhost:50051`. This example requires a server already running at that
-   address. Use `https://` for a server with TLS encryption.
-3. If the server requires authentication, enter its request headers, such as
-   `authorization: Bearer YOUR_TOKEN`. Otherwise, leave the headers empty.
+2. Enter your server's connection address, such as `http://localhost:50051` for
+   Flight SQL or `postgres://postgres@localhost:5432/postgres` for PostgreSQL. These
+   examples require a server already running at that address. The
+   [client reference](flight-sql.md) describes each client's addresses and TLS options.
+3. If the server requires authentication, enter its request headers for Flight SQL,
+   such as `authorization: Bearer YOUR_TOKEN`, or its PostgreSQL password.
+   Otherwise, leave the field empty.
 4. Select **Open workspace**.
 
 Type a query in the editor and press Ctrl+R, or click **Run**:

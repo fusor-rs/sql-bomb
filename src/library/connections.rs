@@ -118,7 +118,7 @@ impl Library {
             ],
         )?;
         let change = if credentials == Credentials::Keyring {
-            CredentialChange::Store(&connection.headers)
+            CredentialChange::Store(&connection.secret)
         } else if previous.as_deref() == Some(Credentials::Keyring.stored()) {
             CredentialChange::Forget
         } else {
@@ -134,7 +134,7 @@ impl Library {
         }))
     }
 
-    pub(crate) fn connection_headers(
+    pub(crate) fn connection_secret(
         &self,
         profile: &SavedConnection,
     ) -> Result<Option<String>, Error> {

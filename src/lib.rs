@@ -4,7 +4,7 @@ use arrow_array::RecordBatch;
 use arrow_schema::Schema;
 use futures_util::{future::BoxFuture, stream::BoxStream};
 
-pub use clients::FlightSql;
+pub use clients::{FlightSql, Postgres};
 
 pub trait QueryClient {
     fn query(&self, sql: String) -> BoxFuture<'_, Result<Query, Error>>;
@@ -49,4 +49,33 @@ pub enum Error {
     TableMetadata(&'static str),
     #[error("Server returned an endpoint without a ticket; check the Flight SQL server")]
     MissingTicket,
+    #[error(
+        "Invalid PostgreSQL connection address; use postgres://user@host:port/database: {}",
+        with_causes(.0)
+    )]
+    PostgresAddress(tokio_postgres::Error),
+    #[error("Remove the password from the connection address; enter it in the Password field")]
+    PostgresPassword,
+    #[error("Cannot load trusted TLS certificates; check the operating system's certificate store")]
+    Certificates,
+    #[error(
+        "PostgreSQL request failed; check the query, credentials, and server: {}",
+        with_causes(.0)
+    )]
+    Postgres(#[from] tokio_postgres::Error),
+    #[error(
+        "Column {column} has unsupported PostgreSQL type {type_name}; cast it, as in {column}::text"
+    )]
+    PostgresType { column: String, type_name: String },
+}
+
+// tokio-postgres keeps details such as the server's message in `source`, not in `Display`.
+fn with_causes(error: &tokio_postgres::Error) -> String {
+    let causes = std::iter::successors(Some(error as &dyn std::error::Error), |cause| {
+        cause.source()
+    });
+    causes
+        .map(ToString::to_string)
+        .collect::<Vec<_>>()
+        .join(": ")
 }

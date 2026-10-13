@@ -17,9 +17,8 @@
                readonly="{{ matches!(state.terminal.draft.purpose.get(), ConnectionPurpose::Current) }}"
                on:focus="state.terminal.remember_focus(&event)">
         <p class="connection-hint">{{ state.client.profile().address_hint }}</p>
-        <If condition="{{ state.client.profile().supports_headers }}">
-          <ConnectionHeaders terminal="{{ state.terminal.clone() }}"></ConnectionHeaders>
-        </If>
+        <ConnectionSecret terminal="{{ state.terminal.clone() }}"
+                          client="{{ state.client }}"></ConnectionSecret>
         <If condition="{{ matches!(state.terminal.draft.purpose.get(), ConnectionPurpose::New) }}">
           <label class="connection-option">
             <input id="save-connection" class="connection-checkbox" type="checkbox"

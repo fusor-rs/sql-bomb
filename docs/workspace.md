@@ -102,7 +102,7 @@ The Menu lists actions and their shortcuts. The full reference is below.
 | Ctrl+S | Star or unstar the editor's query / selected library query |
 | Enter in library search or list | Load the selected query into the editor |
 | Up / Down, then Enter in Connections | Choose and open a saved connection |
-| Space on a checkbox | Toggle saving or remembering headers |
+| Space on a checkbox | Toggle saving or remembering credentials |
 | Enter in SQL | Insert a newline |
 | Ctrl+A in SQL | Select the entire query |
 | Tab or Shift+Tab | Move between controls and panes |

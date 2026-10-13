@@ -25,13 +25,13 @@ impl Library {
         let entry = (self.credentials)(account)?;
         let previous = read(&entry)?;
         match change {
-            CredentialChange::Store(headers) => entry.set_password(headers)?,
+            CredentialChange::Store(secret) => entry.set_password(secret)?,
             CredentialChange::Forget => forget(&entry)?,
             CredentialChange::Keep => unreachable!("unchanged credentials commit without a store"),
         }
         if let Err(error) = transaction.commit() {
             let restored = match previous {
-                Some(headers) => entry.set_password(&headers),
+                Some(secret) => entry.set_password(&secret),
                 None => forget(&entry),
             };
             restored.map_err(|_| Error::CredentialRollback)?;
@@ -43,7 +43,7 @@ impl Library {
 
 pub(super) fn read(entry: &keyring::Entry) -> keyring::Result<Option<String>> {
     match entry.get_password() {
-        Ok(headers) => Ok(Some(headers)),
+        Ok(secret) => Ok(Some(secret)),
         // Credentials can be removed independently in the OS credential store.
         Err(keyring::Error::NoEntry) => Ok(None),
         Err(error) => Err(error),

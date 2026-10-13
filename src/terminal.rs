@@ -49,7 +49,7 @@ enum Execution {
 pub(crate) struct Terminal {
     connection: Signal<Option<Connection>>,
     address: Signal<String>,
-    request_headers: Signal<String>,
+    secret: Signal<String>,
     connection_error: Signal<String>,
     catalog: ConnectionCatalog,
     draft: ConnectionDraft,
@@ -95,7 +95,7 @@ impl FromInputs for Terminal {
         };
         Ok(Self {
             address: signal(address),
-            request_headers: signal(String::new()),
+            secret: signal(String::new()),
             connection: signal(connection),
             connection_error: signal(String::new()),
             catalog,

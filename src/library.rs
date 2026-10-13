@@ -30,7 +30,7 @@ pub(crate) enum Error {
     #[error("Cannot read or save the query library; check its database and file permissions: {0}")]
     Database(#[from] rusqlite::Error),
     #[error(
-        "Cannot access saved credentials; unlock your OS credential store or use session-only headers"
+        "Cannot access saved credentials; unlock your OS credential store or use session-only credentials"
     )]
     Credentials(#[from] keyring::Error),
     #[error(

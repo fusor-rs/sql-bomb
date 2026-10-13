@@ -85,11 +85,13 @@ To check which version you're running, use `boom --version`.
 ### Connect to a server
 
 1. Run `boom` and choose a client from the chooser.
-2. Enter your server URL, including its scheme and port, such as
-   `http://localhost:50051`. This example requires a server already running at that
-   address. Use `https://` for a server with TLS encryption.
-3. If the server requires authentication, enter its request headers, such as
-   `authorization: Bearer YOUR_TOKEN`. Otherwise, leave the headers empty.
+2. Enter your server's connection address, such as `http://localhost:50051` for
+   Flight SQL or `postgres://postgres@localhost:5432/postgres` for PostgreSQL. These
+   examples require a server already running at that address. The
+   [client reference](#clients) describes each client's addresses and TLS options.
+3. If the server requires authentication, enter its request headers for Flight SQL,
+   such as `authorization: Bearer YOUR_TOKEN`, or its PostgreSQL password.
+   Otherwise, leave the field empty.
 4. Select **Open workspace**.
 
 Type a query in the editor and press Ctrl+R, or click **Run**:
@@ -224,7 +226,7 @@ The Menu lists actions and their shortcuts. The full reference is below.
 | Ctrl+S | Star or unstar the editor's query / selected library query |
 | Enter in library search or list | Load the selected query into the editor |
 | Up / Down, then Enter in Connections | Choose and open a saved connection |
-| Space on a checkbox | Toggle saving or remembering headers |
+| Space on a checkbox | Toggle saving or remembering credentials |
 | Enter in SQL | Insert a newline |
 | Ctrl+A in SQL | Select the entire query |
 | Tab / Shift+Tab | Move between controls and panes |
@@ -301,6 +303,64 @@ The optional `QueryClient::tables()` API uses `CommandGetTables` with schemas
 included. It returns each table's catalog, database schema, name, type, and Arrow
 column schema.
 
+### PostgreSQL
+
+Choose **PostgreSQL** in the client chooser, or use its flag. Adding a connection
+address also skips the form, so use it for servers that need no password:
+
+```sh
+boom --postgres
+boom --postgres postgres://postgres@localhost:5432/postgres
+```
+
+The address is a PostgreSQL URL with the user, host, port, and database, such as
+`postgres://postgres@localhost:5432/postgres`. Connection parameters, such as
+`sslmode` or `connect_timeout`, go in its query string. Key-value strings, such as
+`host=localhost user=postgres dbname=postgres`, are also accepted.
+
+Addresses are saved in plaintext with your query history, so they cannot contain a
+password. Enter it in the **Password** field, or leave the field empty for servers
+that do not ask for one. **Remember password securely** stores it in macOS
+Keychain or Linux Secret Service, as described for Flight SQL headers; otherwise,
+reopening a saved connection asks for the password again.
+
+`sslmode` follows psql's rules. The default, `prefer`, uses TLS when the server
+offers it and connects unencrypted otherwise; `require` refuses unencrypted
+connections; `disable` never uses TLS. These modes encrypt without checking the
+server's certificate, so servers with their own certificate authority, such as
+Supabase, connect without setup, but an attacker could impersonate the server.
+`verify-ca` also checks that a certificate authority trusted by your operating
+system issued the certificate, and `verify-full` also checks that the certificate
+names the host. The `allow` mode and `sslrootcert` are not supported.
+
+Each query opens a connection, prepares one statement, and streams its rows as
+they arrive. Run one statement at a time; statements with parameters such as `$1`
+are not supported. Each query runs on its own connection, so session settings and
+transactions do not carry over to the next query.
+
+| PostgreSQL type | Arrow type |
+| --- | --- |
+| `boolean` | Boolean |
+| `smallint`, `integer`, `bigint` | Int16, Int32, Int64 |
+| `oid` | UInt32 |
+| `real`, `double precision` | Float32, Float64 |
+| `text`, `varchar`, `char`, `name`, `citext` | Utf8 |
+| `numeric` | Utf8, with every digit the server returns |
+| `uuid`, `json`, `jsonb` | Utf8 |
+| `bytea` | Binary |
+| `date` | Date32 |
+| `time` | Time64 in microseconds |
+| `timestamp`, `timestamptz` | Timestamp in microseconds; `timestamptz` in UTC |
+
+A query that returns another type, such as an array, `interval`, or enum, fails
+with an error naming the column. Cast the column to text, as in `tags::text`.
+Infinite dates and timestamps also need a text cast.
+
+SQL suggestions include tables, views, materialized views, and foreign tables
+outside `pg_catalog`, `information_schema`, and other `pg_` schemas, qualified by
+schema. Columns of the built-in types above are suggested; `citext` comes from an
+extension, so its columns are not.
+
 ## How it works
 
 - **Pluggable clients.** The public [QueryClient trait](src/lib.rs) returns a
@@ -358,6 +418,10 @@ The Flight SQL integration test checks delivery before completion, multiple
 endpoints, request headers, nullable Unicode values, empty results, and errors.
 It also launches `boom` in a terminal to verify metadata discovery, Tab and mouse
 completion, caret placement, dismissal, and editing after a metadata failure.
+The PostgreSQL integration test starts a temporary TLS server with `initdb`,
+`pg_ctl`, and `openssl`, so those must be on your PATH. It checks password
+authentication, every supported column type, results spanning batches, table
+discovery, `sslmode` handling, and errors.
 UI tests cover client selection, saved connections, credential prompts, history,
 stars, search, menu navigation, responsive layout, and draft recovery. Storage
 tests check that profiles exclude secrets and failed saves preserve credentials.

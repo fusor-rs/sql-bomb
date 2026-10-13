@@ -19,8 +19,9 @@
         <Case pattern="Screen::Connections">
           <SavedConnections terminal="{{ state.clone() }}"></SavedConnections>
         </Case>
-        <Case pattern="Screen::Credentials(_)">
-          <ConnectionCredentials terminal="{{ state.clone() }}"></ConnectionCredentials>
+        <Case pattern="Screen::Credentials(profile)">
+          <ConnectionCredentials terminal="{{ state.clone() }}"
+                                 client="{{ profile.get().kind }}"></ConnectionCredentials>
         </Case>
         <Case pattern="Screen::RemoveConnection(_)">
           <RemoveConnection terminal="{{ state.clone() }}"></RemoveConnection>

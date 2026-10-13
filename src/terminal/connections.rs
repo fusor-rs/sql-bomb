@@ -42,7 +42,7 @@ impl Terminal {
         self.catalog.search.set(String::new());
         self.search_connections()?;
         self.address.set(String::new());
-        self.request_headers.set(String::new());
+        self.secret.set(String::new());
         self.draft.name.set(String::new());
         self.draft.save.set(false);
         self.draft.remember.set(false);
@@ -82,8 +82,8 @@ impl Terminal {
 
     pub(super) fn open_saved_connection(&self, profile: Rc<SavedConnection>) -> Result<(), Error> {
         self.connection_error.set(String::new());
-        match self.library.connection_headers(&profile) {
-            Ok(Some(headers)) => match profile.kind.connect(profile.address.clone(), headers) {
+        match self.library.connection_secret(&profile) {
+            Ok(Some(secret)) => match profile.kind.connect(profile.address.clone(), secret) {
                 Ok(mut connection) => {
                     connection.saved = Some(profile);
                     self.activate_connection(connection)?;
@@ -96,7 +96,7 @@ impl Terminal {
                     .purpose
                     .set(ConnectionPurpose::Reopen(profile.clone()));
                 self.screen.set(Screen::Credentials(profile));
-                self.focus("request-headers");
+                self.focus("connection-secret");
             }
             Err(error) => self.connection_error.set(error.to_string()),
         }
@@ -114,9 +114,9 @@ impl Terminal {
         let Some(profile) = self.selected_connection() else {
             return Ok(());
         };
-        match self.library.connection_headers(&profile) {
-            Ok(headers) => {
-                self.prepare_saved_connection(&profile, headers.unwrap_or_default());
+        match self.library.connection_secret(&profile) {
+            Ok(secret) => {
+                self.prepare_saved_connection(&profile, secret.unwrap_or_default());
                 self.screen.set(Screen::Connection(profile.kind));
                 self.focus("connection-name");
             }
@@ -125,9 +125,9 @@ impl Terminal {
         Ok(())
     }
 
-    fn prepare_saved_connection(&self, profile: &Rc<SavedConnection>, headers: String) {
+    fn prepare_saved_connection(&self, profile: &Rc<SavedConnection>, secret: String) {
         self.address.set(profile.address.clone());
-        self.request_headers.set(headers);
+        self.secret.set(secret);
         self.draft.name.set(profile.name.clone());
         self.draft.save.set(true);
         self.draft

@@ -47,6 +47,14 @@ jobs:
       - run: sh -n install.sh
       - run: cargo fmt --all -- --check
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - name: Put PostgreSQL server binaries on PATH
+        run: |
+          if [ "$RUNNER_OS" = macOS ]; then
+            brew install postgresql@17
+            echo "$(brew --prefix postgresql@17)/bin" >> "$GITHUB_PATH"
+          else
+            ls -d /usr/lib/postgresql/*/bin | tail -n 1 >> "$GITHUB_PATH"
+          fi
       - run: cargo test --workspace --locked
       - name: Install and run the executable
         run: |

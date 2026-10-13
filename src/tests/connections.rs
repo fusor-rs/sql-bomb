@@ -58,7 +58,7 @@ fn saved_connections_reopen_with_credentials_and_support_editing_and_removal() {
     session.key(Key::Enter, Modifiers::default());
     assert_eq!(
         session.controls.focus(),
-        session.scope.root().find("request-headers")
+        session.scope.root().find("connection-secret")
     );
     session.click("connect");
     assert_eq!(
@@ -70,7 +70,7 @@ fn saved_connections_reopen_with_credentials_and_support_editing_and_removal() {
             .text(),
         "Enter the request headers for this connection."
     );
-    fill_field(&mut session, "request-headers", HEADERS);
+    fill_field(&mut session, "connection-secret", HEADERS);
     session.click("remember-credentials");
     session.click("connect");
     drop(session);
@@ -105,7 +105,7 @@ fn create_session_only_connection(session: &mut TerminalSession) {
     let root = session.scope.root();
     assert!(!root.find("save-connection").unwrap().checked());
     assert_eq!(root.find("connection-name"), None);
-    fill_field(session, "request-headers", HEADERS);
+    fill_field(session, "connection-secret", HEADERS);
     session.click("save-connection");
     assert_eq!(root.find("connection-name").unwrap().value(), "localhost");
     assert!(!root.find("remember-credentials").unwrap().checked());
@@ -139,7 +139,7 @@ fn rename_session_only_connection(session: &mut TerminalSession) {
         session
             .scope
             .root()
-            .find("request-headers")
+            .find("connection-secret")
             .unwrap()
             .value(),
         ""
@@ -169,7 +169,7 @@ fn edit_saved_connection(
         session
             .scope
             .root()
-            .find("request-headers")
+            .find("connection-secret")
             .unwrap()
             .value(),
         HEADERS
@@ -208,7 +208,7 @@ fn edit_saved_connection(
 }
 
 fn reject_empty_remembered_headers(session: &mut TerminalSession) {
-    fill_field(session, "request-headers", "");
+    fill_field(session, "connection-secret", "");
     session.click("connect");
     assert_eq!(
         session
@@ -219,7 +219,7 @@ fn reject_empty_remembered_headers(session: &mut TerminalSession) {
             .text(),
         "Enter headers to remember, or uncheck Remember headers."
     );
-    fill_field(session, "request-headers", HEADERS);
+    fill_field(session, "connection-secret", HEADERS);
 }
 
 fn remove_saved_connection(
@@ -299,7 +299,7 @@ fn profiles_keep_secrets_out_of_sqlite_and_preserve_credentials_when_saving_fail
         .save_connection(None, "Original", &connection, Credentials::Keyring)
         .unwrap();
     assert_eq!(
-        library.connection_headers(&profile).unwrap(),
+        library.connection_secret(&profile).unwrap(),
         Some(HEADERS.into())
     );
     let second = library
@@ -323,7 +323,7 @@ fn profiles_keep_secrets_out_of_sqlite_and_preserve_credentials_when_saving_fail
     let saved = reopened.connections("original").unwrap();
     assert_eq!(saved[0].address, ENDPOINT);
     assert_eq!(
-        reopened.connection_headers(&saved[0]).unwrap(),
+        reopened.connection_secret(&saved[0]).unwrap(),
         Some(HEADERS.into())
     );
     for file in fs::read_dir(&directory).unwrap() {
@@ -335,7 +335,7 @@ fn profiles_keep_secrets_out_of_sqlite_and_preserve_credentials_when_saving_fail
         );
     }
     reopened.remove_connection(&saved[0]).unwrap();
-    assert_eq!(reopened.connection_headers(&saved[0]).unwrap(), None);
+    assert_eq!(reopened.connection_secret(&saved[0]).unwrap(), None);
     assert_eq!(reopened.connections("").unwrap().len(), 1);
     drop((library, reopened));
     fs::remove_dir_all(directory).unwrap();
@@ -368,11 +368,11 @@ fn credential_failure_keeps_profile(
         .unwrap();
     assert_eq!(
         error.to_string(),
-        "Cannot access saved credentials; unlock your OS credential store or use session-only headers"
+        "Cannot access saved credentials; unlock your OS credential store or use session-only credentials"
     );
     assert_eq!(library.connections("original").unwrap()[0].name, "Original");
     assert_eq!(
-        library.connection_headers(profile).unwrap(),
+        library.connection_secret(profile).unwrap(),
         Some(HEADERS.into())
     );
 }
@@ -411,7 +411,7 @@ fn locked_database_restores_credentials(
     reader.execute_batch("ROLLBACK").unwrap();
     assert_eq!(library.connections("original").unwrap()[0].name, "Original");
     assert_eq!(
-        library.connection_headers(profile).unwrap(),
+        library.connection_secret(profile).unwrap(),
         Some(HEADERS.into())
     );
 }
