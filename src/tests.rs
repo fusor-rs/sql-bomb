@@ -14,6 +14,7 @@ use std::{
 
 const ENDPOINT: &str = "http://localhost:50051";
 const OTHER_ENDPOINT: &str = "http://localhost:50052";
+const POSTGRES_ENDPOINT: &str = "postgres://postgres@localhost:5432/postgres";
 const SAVED_SQL: &str = "-- café\nSELECT '東京_100%';";
 const DRAFT: &str = "SELECT 'unfinished draft';";
 const CONTROL: Modifiers = Modifiers {
@@ -290,6 +291,28 @@ fn client_selection_and_configuration_precede_the_workspace() {
     fs::remove_dir_all(directory).unwrap();
 }
 
+#[test]
+fn postgres_password_is_one_line_so_enter_opens_the_workspace() {
+    let directory = library_directory("postgres");
+    let crate::cli::Command::Start(startup) =
+        crate::cli::parse(["--postgres".to_owned()].into_iter()).unwrap()
+    else {
+        panic!("A client flag starts the application");
+    };
+    let mut session = TerminalSession::start(Library::open(&directory).unwrap(), startup);
+    let root = session.scope.root();
+    assert_eq!(root.find("address").unwrap().value(), POSTGRES_ENDPOINT);
+    session.click("connection-secret");
+    session.input(Input::Paste("password".into()));
+    session.key(Key::Enter, Modifiers::default());
+    assert_eq!(session.controls.focus(), root.find("query"));
+    assert_eq!(
+        root.find("connection-label").unwrap().text(),
+        format!("PostgreSQL · {POSTGRES_ENDPOINT}")
+    );
+    fs::remove_dir_all(directory).unwrap();
+}
+
 fn choose_client_card(session: &mut TerminalSession, arguments: &[&str]) {
     let root = session.scope.root();
     let cards = root.find("client-cards").unwrap();
@@ -297,7 +320,7 @@ fn choose_client_card(session: &mut TerminalSession, arguments: &[&str]) {
         .descendants()
         .filter(|node| node.tag() == "button")
         .collect();
-    assert_eq!(buttons.len(), 1);
+    assert_eq!(buttons.len(), 2);
     assert_eq!(session.controls.focus().as_ref(), buttons.first());
     assert_eq!(
         root.find("connection-label").unwrap().text(),
@@ -336,27 +359,27 @@ fn rejects_invalid_connection_settings(session: &mut TerminalSession) {
     session.click("address");
     session.key(Key::Char('a'), CONTROL);
     session.input(Input::Paste(ENDPOINT.into()));
-    session.click("request-headers");
+    session.click("connection-secret");
     session.input(Input::Paste("not-a-header".into()));
     session.click("connect");
     assert_eq!(
         root.find("connection-error").unwrap().text(),
         "Invalid request headers; use one ASCII name: value per line (no binary headers)"
     );
-    session.click("request-headers");
+    session.click("connection-secret");
     session.key(Key::Char('a'), CONTROL);
     session.input(Input::Paste("authorization: Bearer example".into()));
     session.key(Key::Enter, Modifiers::default());
     session.input(Input::Paste("x-tenant: example".into()));
     assert_eq!(
-        root.find("request-headers").unwrap().value(),
+        root.find("connection-secret").unwrap().value(),
         "authorization: Bearer example\nx-tenant: example"
     );
     session.key(Key::Escape, Modifiers::default());
     session.key(Key::Enter, Modifiers::default());
     assert_eq!(session.controls.focus(), root.find("address"));
     assert_eq!(
-        root.find("request-headers").unwrap().value(),
+        root.find("connection-secret").unwrap().value(),
         "authorization: Bearer example\nx-tenant: example"
     );
     session.size = (40, 20);

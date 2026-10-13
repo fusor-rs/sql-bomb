@@ -59,26 +59,29 @@ impl Terminal {
     }
 
     pub(super) fn connect(&self) -> Result<(), Error> {
-        let headers_missing = self
-            .request_headers
-            .with(|headers| headers.trim().is_empty());
-        if self.saving_connection() && self.draft.remember.get() && headers_missing {
-            self.connection_error
-                .set("Enter headers to remember, or uncheck Remember headers.".into());
-            return Ok(());
-        }
-        if matches!(self.screen.get(), Screen::Credentials(_)) && headers_missing {
-            self.connection_error
-                .set("Enter the request headers for this connection.".into());
-            return Ok(());
-        }
         let kind = match self.screen.get() {
             Screen::Connection(kind) => kind,
             Screen::Credentials(profile) => profile.kind,
             _ => return Ok(()),
         };
+        let secret = &kind.profile().secret;
+        let secret_missing = self.secret.with(|value| value.trim().is_empty());
+        if self.saving_connection() && self.draft.remember.get() && secret_missing {
+            self.connection_error.set(format!(
+                "Enter {0} to remember, or uncheck Remember {0}.",
+                secret.noun
+            ));
+            return Ok(());
+        }
+        if matches!(self.screen.get(), Screen::Credentials(_)) && secret_missing {
+            self.connection_error.set(format!(
+                "Enter the {} for this connection.",
+                secret.label.to_lowercase()
+            ));
+            return Ok(());
+        }
         let address = self.address.with(|address| address.trim().to_owned());
-        let connection = kind.connect(address, self.request_headers.get());
+        let connection = kind.connect(address, self.secret.get());
         match connection {
             Ok(connection) => {
                 if let Err(error) = self.submit_connection(connection) {
@@ -100,7 +103,7 @@ impl Terminal {
         };
         self.suggest_connection_name();
         let name = self.draft.name.with(|name| name.trim().to_owned());
-        let credentials = if connection.headers.trim().is_empty() {
+        let credentials = if connection.secret.trim().is_empty() {
             original
                 .as_ref()
                 .filter(|profile| profile.credentials == Credentials::Session)
@@ -176,7 +179,7 @@ impl Terminal {
         self.connection.with(|connection| {
             if let Some(connection) = connection {
                 self.address.set(connection.address.clone());
-                self.request_headers.set(connection.headers.clone());
+                self.secret.set(connection.secret.clone());
                 self.draft.name.set(String::new());
                 self.draft.save.set(true);
                 self.draft.remember.set(false);

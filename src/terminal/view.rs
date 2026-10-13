@@ -5,12 +5,16 @@ use crate::library::Collection;
 use std::rc::Rc;
 
 macro_rules! terminal_views {
-    ($($name:ident => $template:literal),+ $(,)?) => {
+    ($($name:ident $({ $input:ident: $type:ty })? => $template:literal),+ $(,)?) => {
         $(
             #[derive(fusor::FromInputs)]
             struct $name {
                 #[input]
                 terminal: Rc<Terminal>,
+                $(
+                    #[input]
+                    $input: $type,
+                )?
             }
 
             fusor::template!(backend = "hypercmd", $template);
@@ -20,8 +24,9 @@ macro_rules! terminal_views {
 
 terminal_views! {
     SavedConnections => "ui/connections/saved.html",
-    ConnectionHeaders => "ui/connections/headers.html",
-    ConnectionCredentials => "ui/connections/credentials.html",
+    ConnectionForm { client: Client } => "ui/connections/form.html",
+    ConnectionSecret { client: Client } => "ui/connections/secret.html",
+    ConnectionCredentials { client: Client } => "ui/connections/credentials.html",
     RemoveConnection => "ui/connections/remove.html",
     ClientChooser => "ui/connections/clients.html",
     QueryWorkspace => "ui/workspace.html",
@@ -31,13 +36,4 @@ terminal_views! {
     CommandMenu => "ui/menu.html",
 }
 
-#[derive(fusor::FromInputs)]
-struct ConnectionForm {
-    #[input]
-    terminal: Rc<Terminal>,
-    #[input]
-    client: Client,
-}
-
-fusor::template!(backend = "hypercmd", "ui/connections/form.html");
 fusor::template!(backend = "hypercmd", "ui/app.html");

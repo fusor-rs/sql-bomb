@@ -119,7 +119,7 @@ th { color: #DF5036; }
 .connection-heading { flex-direction: row; gap: 2ch; height: 2ch; }
 .connection-title { height: 1ch; white-space: pre; overflow: hidden; }
 .connection-heading-title { flex-grow: 1; }
-#request-headers { height: 4ch; }
+.connection-lines { height: 4ch; }
 .connection-option, .connection-actions { flex-direction: row; gap: 1ch; }
 .connection-option-label { flex-shrink: 1; min-width: 0; white-space: normal; }
 .connection-checkbox, .connection-checkbox:focus {
