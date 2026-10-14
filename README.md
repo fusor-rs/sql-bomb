@@ -13,6 +13,8 @@ results into a table. You can inspect complete cell values, reopen saved
 connections, and return to queries from your local history or starred library.
 The installed executable is named `boom`.
 
+![sql-bomb showing a query's results in the terminal](apps/landing/public/terminal/results.svg)
+
 A client connects sql-bomb to a database server, and every client shares the same
 editor, results table, saved connections, and query library. The
 [client reference](#clients) lists the available clients and their settings.
